@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:poke_app/pages/home.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
+import 'package:poke_app/pages/pokemon/home.dart';
 import 'package:poke_app/utils/routes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AppState());
+}
+
+class AppState extends StatelessWidget {
+  const AppState({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PokemonBloc>(create: (_) => PokemonBloc()),
+      ],
+      child: const MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

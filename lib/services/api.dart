@@ -52,7 +52,6 @@ class Api {
   }
 
   Map<String, dynamic> errorResponse(Object e) {
-    print(e.toString());
     if (e.toString().contains("No route to host") ||
         e.toString().contains("No address associated with hostname") ||
         e.toString().contains("Connection refused") ||

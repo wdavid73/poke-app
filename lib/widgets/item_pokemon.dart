@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/material.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/utils/responsive.dart';
 import 'package:poke_app/widgets/tag_type_pokemon.dart';
@@ -7,6 +7,7 @@ import 'package:poke_app/widgets/tag_type_pokemon.dart';
 class ItemPokemon extends StatefulWidget {
   final Pokemon pokemon;
   final Responsive responsive;
+
   const ItemPokemon({
     super.key,
     required this.pokemon,
@@ -37,7 +38,7 @@ class _ItemPokemonState extends State<ItemPokemon> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
-                flex: 5,
+                flex: 2,
                 child: ExtendedImage.network(
                   widget.pokemon.image,
                   width: widget.responsive.wp(55),
@@ -94,7 +95,7 @@ class _ItemPokemonState extends State<ItemPokemon> {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -110,13 +111,10 @@ class _ItemPokemonState extends State<ItemPokemon> {
                           fontSize: widget.responsive.dp(1.9),
                         ),
                       ),
-                      Container(
-                        height: 200,
-                        color: Colors.red,
-                        child: TagTypePokemon(
-                          types: widget.pokemon.type,
-                          width: widget.responsive.width,
-                        ),
+                      TagTypePokemon(
+                        types: widget.pokemon.type,
+                        width: widget.responsive.width,
+                        height: widget.responsive.hp(5),
                       ),
                     ],
                   ),
