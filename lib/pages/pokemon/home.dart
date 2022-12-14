@@ -25,28 +25,33 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   init() {
+    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
     // getPokemon();
+    pokemonBloc.add(GetPokemon());
   }
 
-  /*Future<dynamic> _getPokemon() async {
-    dynamic data = await _pokemonRepository.getPokemon();
-    setState(() {
-      pokemon = data;
-    });
-  }*/
+  closeDrawer() {
+    Navigator.pop(context);
+  }
+
+  goToAddPokemon() {
+    closeDrawer();
+    Navigator.pushNamed(context, 'create_pokemon');
+  }
+
 
   @override
   Widget build(BuildContext context) {
     Responsive responsive = Responsive(context);
     final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
 
-    void getPokemon() {
+    /*void getPokemon() {
       pokemonBloc.add(GetPokemon());
-    }
+    }*/
 
-    void reduceListPokemon() {
+    /*void reduceListPokemon() {
       pokemonBloc.add(ReduceListPokemon());
-    }
+    }*/
 
     void findPokemon() {
       pokemonBloc.add(FindPokemon(_search));
@@ -55,6 +60,30 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Poke App'),
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.white70,
+              ),
+              child: Image.asset(
+                "assets/images/pokemon_logo.png",
+                height: responsive.hp(20),
+                width: responsive.wp(20),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_circle_outline),
+              title: const Text("Add Pokemon"),
+              iconColor: Colors.lightBlueAccent,
+              hoverColor: Colors.blueAccent,
+              onTap: () => goToAddPokemon(),
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -90,23 +119,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(12.0),
                 child: ListPokemon(),
               ),
-              SizedBox(
+              /*SizedBox(
                 height: responsive.hp(5),
                 child: ElevatedButton(
                   onPressed: () => getPokemon(),
                   child: const Text('get pokemon from api'),
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: responsive.hp(1),
               ),
-              SizedBox(
+              /*SizedBox(
                 height: responsive.hp(5),
                 child: ElevatedButton(
                   onPressed: () => reduceListPokemon(),
                   child: const Text('reduce list'),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
