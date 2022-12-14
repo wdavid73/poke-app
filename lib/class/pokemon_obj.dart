@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:poke_app/class/typepokemon.dart';
 
 class Pokemon {
-  int id;
+  int? id;
   String name;
   String description;
   List<Typepokemon> type;
@@ -11,12 +12,12 @@ class Pokemon {
   String image;
 
   Pokemon({
-    required this.id,
+    this.id,
+    required this.image,
     required this.name,
     required this.description,
-    this.type = const <Typepokemon>[],
     required this.skill,
-    required this.image,
+    this.type = const <Typepokemon>[],
   });
 
   @override
@@ -45,6 +46,35 @@ class Pokemon {
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [Pokemon].
+}
+
+class PokemonFile extends Pokemon {
+  File? photo;
+  List<String> typeId;
+
+  PokemonFile({
+    super.image = '',
+    required super.name,
+    required super.description,
+    required super.skill,
+    required this.photo,
+    required this.typeId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["name"] = name;
+    data["description"] = description;
+    data["skill"] = skill;
+    data["image"] = photo;
+    data['type_id'] = typeId;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'PokemonFile(name: $name, description: $description, skill: $skill, image: $photo, type: $typeId)';
+  }
 }
 
 List<Pokemon> parsePokemon(String data) {

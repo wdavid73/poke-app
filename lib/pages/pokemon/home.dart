@@ -30,6 +30,13 @@ class _MyHomePageState extends State<MyHomePage> {
     pokemonBloc.add(GetPokemon());
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+    pokemonBloc.close();
+  }
+
   closeDrawer() {
     Navigator.pop(context);
   }

@@ -18,13 +18,32 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       // event reduce list pokemon
       if (event is ReduceListPokemon) {
-        emit.call(state.copyWith(
-            pokemon: state.pokemon.sublist(state.pokemon.length - 2)));
+        emit.call(
+          state.copyWith(
+            pokemon: state.pokemon.sublist(state.pokemon.length - 2),
+          ),
+        );
       }
 
-      //event find pokemon
+      // event find pokemon
       if (event is FindPokemon) {
         emit.call(_findPokemon(event.name));
+      }
+
+      // event create pokemon
+      if (event is CreatePokemonEvent) {
+        emit.call(_setLoading(true));
+        // PokemonState response = await _createPokemon(event.pokemon);
+        emit.call(await _createPokemon(event.pokemon));
+        emit.call(_setLoading(false));
+      }
+
+      if (event is SetLoading) {
+        emit.call(_setLoading(event.loading));
+      }
+
+      if (event is ResetStateCreatedPokemon) {
+        emit.call(state.copyWith(pokemonCreated: false));
       }
     });
   }
@@ -46,5 +65,15 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       }
     }
     return state.copyWith(pokemonFiltered: pokemonFiltered);
+  }
+
+  Future<PokemonState> _createPokemon(PokemonFile pokemon) async {
+    await Future.delayed(const Duration(seconds: 3));
+    var response = await _pokemonRepository.createPokemon(pokemon.toJson());
+    return state.copyWith(pokemonCreated: response.status);
+  }
+
+  PokemonState _setLoading(bool loading) {
+    return state.copyWith(loading: loading);
   }
 }

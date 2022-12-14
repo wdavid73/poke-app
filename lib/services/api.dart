@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:poke_app/services/response.dart';
@@ -6,7 +7,7 @@ import 'package:poke_app/services/response.dart';
 class Api {
   final _headers = {'Content-Type': 'application/json'};
 
-  String api = 'https://poke-api-django.herokuapp.com/poke_api/';
+  String api = 'http://10.0.2.2:8000/poke_api/';
   int durationTimeOut = 60;
 
   Future<Response> get(String path) async {
@@ -37,6 +38,83 @@ class Api {
       return _responseFromJson(
         false,
         "The connection has timed out, Please try again!",
+        500,
+        null,
+      );
+    } catch (e) {
+      Map<String, dynamic> error = errorResponse(e);
+      return _responseFromJson(
+        error['statusCode'],
+        error['message'],
+        500,
+        error['data'],
+      );
+    }
+  }
+
+  Future<Response> post(
+    String path,
+    dynamic data, {
+    bool withFile = false,
+  }) async {
+    try {
+      dynamic response;
+      dynamic responseData;
+      if (!withFile) {
+        response = await http
+            .post(
+              Uri.parse(api + path),
+              headers: _headers,
+              body: jsonEncode(data),
+            )
+            .timeout(
+              Duration(seconds: durationTimeOut),
+            );
+      } else {
+        var request = http.MultipartRequest(
+          "POST",
+          Uri.parse(api + path),
+        );
+        data.forEach((final String key, final value) async {
+          if (key == "image") {
+            var pic = await http.MultipartFile.fromPath("image", value.path);
+            request.files.add(pic);
+          } else {
+            if (value.runtimeType != List<String>) {
+              request.fields[key] = value;
+            } else {
+              for (String item in value) {
+                request.files.add(
+                  http.MultipartFile.fromString(key, item),
+                );
+              }
+            }
+          }
+        });
+        response = await request.send().timeout(
+              Duration(seconds: durationTimeOut),
+            );
+        responseData = await response.stream.toBytes();
+      }
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return _responseFromJson(
+          true,
+          "",
+          response.statusCode,
+          !withFile ? response.body : String.fromCharCodes(responseData),
+        );
+      } else {
+        return _responseFromJson(
+          false,
+          !withFile ? response.body : String.fromCharCodes(responseData),
+          response.statusCode,
+          null,
+        );
+      }
+    } on TimeoutException catch (_) {
+      return _responseFromJson(
+        false,
+        'The connection has timed out, Please try again!',
         500,
         null,
       );
