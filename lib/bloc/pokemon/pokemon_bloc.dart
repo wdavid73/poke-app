@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
-import 'package:poke_app/services/repository.dart';
+import 'package:poke_app/services/repositories/repository_pokemon.dart';
 
 part 'pokemon_event.dart';
 part 'pokemon_state.dart';
@@ -10,42 +10,44 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   final PokemonRepository _pokemonRepository = PokemonRepository();
 
   PokemonBloc() : super(PokemonState()) {
-    on<PokemonEvent>((event, emit) async {
-      // event get pokemon
-      if (event is GetPokemon) {
-        emit.call(await _getPokemon());
-      }
+    on<PokemonEvent>(
+      (event, emit) async {
+        // event get pokemon
+        if (event is GetPokemon) {
+          emit.call(await _getPokemon());
+        }
 
-      // event reduce list pokemon
-      if (event is ReduceListPokemon) {
-        emit.call(
-          state.copyWith(
-            pokemon: state.pokemon.sublist(state.pokemon.length - 2),
-          ),
-        );
-      }
+        // event reduce list pokemon
+        if (event is ReduceListPokemon) {
+          emit.call(
+            state.copyWith(
+              pokemon: state.pokemon.sublist(state.pokemon.length - 2),
+            ),
+          );
+        }
 
-      // event find pokemon
-      if (event is FindPokemon) {
-        emit.call(_findPokemon(event.name));
-      }
+        // event find pokemon
+        if (event is FindPokemon) {
+          emit.call(_findPokemon(event.name));
+        }
 
-      // event create pokemon
-      if (event is CreatePokemonEvent) {
-        emit.call(_setLoading(true));
-        // PokemonState response = await _createPokemon(event.pokemon);
-        emit.call(await _createPokemon(event.pokemon));
-        emit.call(_setLoading(false));
-      }
+        // event create pokemon
+        if (event is CreatePokemonEvent) {
+          emit.call(_setLoading(true));
+          // PokemonState response = await _createPokemon(event.pokemon);
+          emit.call(await _createPokemon(event.pokemon));
+          emit.call(_setLoading(false));
+        }
 
-      if (event is SetLoading) {
-        emit.call(_setLoading(event.loading));
-      }
+        if (event is SetLoading) {
+          emit.call(_setLoading(event.loading));
+        }
 
-      if (event is ResetStateCreatedPokemon) {
-        emit.call(state.copyWith(pokemonCreated: false));
-      }
-    });
+        if (event is ResetStateCreatedPokemon) {
+          emit.call(state.copyWith(pokemonCreated: false));
+        }
+      },
+    );
   }
 
   Future<PokemonState> _getPokemon() async {
@@ -68,7 +70,6 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   }
 
   Future<PokemonState> _createPokemon(PokemonFile pokemon) async {
-    await Future.delayed(const Duration(seconds: 3));
     var response = await _pokemonRepository.createPokemon(pokemon.toJson());
     return state.copyWith(pokemonCreated: response.status);
   }

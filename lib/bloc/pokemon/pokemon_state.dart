@@ -25,4 +25,9 @@ class PokemonState {
         loading: loading ?? this.loading,
         pokemonCreated: pokemonCreated ?? this.pokemonCreated,
       );
+
+  @override
+  String toString() {
+    return "PokemonState: ${pokemon.length}, pokemonCreated : $pokemonCreated, loading: $loading";
+  }
 }

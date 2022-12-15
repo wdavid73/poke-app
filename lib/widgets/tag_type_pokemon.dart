@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:poke_app/class/typepokemon.dart';
+import 'package:poke_app/class/type_pokemon.dart';
 import 'package:poke_app/utils/hex_color.dart';
 
 class TagTypePokemon extends StatelessWidget {
-  final List<Typepokemon> types;
+  final List<TypePokemon> types;
   final double width;
   final double height;
 
@@ -35,7 +35,7 @@ class TagTypePokemon extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '${types[index].name}',
+                    types[index].name,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white,

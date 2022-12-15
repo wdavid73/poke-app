@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:poke_app/class/typepokemon.dart';
+import 'package:poke_app/class/type_pokemon.dart';
 
 class Pokemon {
   int? id;
   String name;
   String description;
-  List<Typepokemon> type;
+  List<TypePokemon> type;
   String skill;
   String image;
 
@@ -17,7 +17,7 @@ class Pokemon {
     required this.name,
     required this.description,
     required this.skill,
-    this.type = const <Typepokemon>[],
+    this.type = const <TypePokemon>[],
   });
 
   @override
@@ -26,11 +26,11 @@ class Pokemon {
   }
 
   factory Pokemon.fromMap(Map<String, dynamic> data) {
-    List<Typepokemon> type = [];
+    List<TypePokemon> type = [];
     if (data['type'] != null) {
       final item = data['type'];
-      final arr = <Typepokemon>[];
-      item.forEach((i) => arr.add(Typepokemon.fromJson(i)));
+      final arr = <TypePokemon>[];
+      item.forEach((i) => arr.add(TypePokemon.fromMap(i)));
       type = arr;
     }
     return Pokemon(

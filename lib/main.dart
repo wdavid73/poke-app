@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
+import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
 import 'package:poke_app/pages/pokemon/home.dart';
 import 'package:poke_app/utils/routes.dart';
 
@@ -16,6 +17,7 @@ class AppState extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PokemonBloc>(create: (_) => PokemonBloc()),
+        BlocProvider<TypePokemonBloc>(create: (_) => TypePokemonBloc()),
       ],
       child: const MyApp(),
     );
