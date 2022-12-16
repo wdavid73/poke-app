@@ -129,6 +129,41 @@ class Api {
     }
   }
 
+  Future<Response> delete(String path) async {
+    try {
+      final response = await http
+          .delete(
+            Uri.parse(api + path),
+            headers: _headers,
+          )
+          .timeout(
+            Duration(seconds: durationTimeOut),
+          );
+      if (response.statusCode == 200) {
+        return _responseFromJson(
+          true,
+          "",
+          response.statusCode,
+          response.body,
+        );
+      }
+      return _responseFromJson(
+        false,
+        response.body,
+        response.statusCode,
+        null,
+      );
+    } catch (e) {
+      Map<String, dynamic> error = errorResponse(e);
+      return _responseFromJson(
+        error['statusCode'],
+        error['message'],
+        500,
+        error['data'],
+      );
+    }
+  }
+
   Map<String, dynamic> errorResponse(Object e) {
     if (e.toString().contains("No route to host") ||
         e.toString().contains("No address associated with hostname") ||

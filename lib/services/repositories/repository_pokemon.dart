@@ -18,4 +18,9 @@ class PokemonRepository {
     );
     return response;
   }
+
+  Future<Response> deletePokemon(int idPokemon) async {
+    dynamic response = await api.delete('pokemon/$idPokemon/');
+    return response;
+  }
 }

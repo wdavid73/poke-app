@@ -6,12 +6,14 @@ class TagTypePokemon extends StatelessWidget {
   final List<TypePokemon> types;
   final double width;
   final double height;
+  final int count;
 
   const TagTypePokemon({
     super.key,
     required this.types,
     required this.width,
     this.height = 20,
+    this.count = 2,
   });
 
   @override
@@ -20,7 +22,7 @@ class TagTypePokemon extends StatelessWidget {
       height: height,
       width: width,
       child: GridView.count(
-        crossAxisCount: 2,
+        crossAxisCount: count,
         childAspectRatio: 2,
         children: List.generate(
           types.length,

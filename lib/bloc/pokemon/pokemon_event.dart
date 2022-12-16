@@ -21,7 +21,21 @@ class CreatePokemonEvent extends PokemonEvent {
 
 class SetLoading extends PokemonEvent {
   final bool loading;
+
   SetLoading(this.loading);
 }
 
 class ResetStateCreatedPokemon extends PokemonEvent {}
+
+class SetPokemon extends PokemonEvent {
+  final Pokemon pokemon;
+
+  SetPokemon(this.pokemon);
+}
+
+class DeletePokemon extends PokemonEvent {
+  final int idPokemon;
+  DeletePokemon(this.idPokemon);
+}
+
+class ClearState extends PokemonEvent {}

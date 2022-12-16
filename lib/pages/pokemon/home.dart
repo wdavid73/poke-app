@@ -46,23 +46,25 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.pushNamed(context, 'create_pokemon');
   }
 
-
   @override
   Widget build(BuildContext context) {
     Responsive responsive = Responsive(context);
     final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
 
-    /*void getPokemon() {
-      pokemonBloc.add(GetPokemon());
-    }*/
-
-    /*void reduceListPokemon() {
-      pokemonBloc.add(ReduceListPokemon());
-    }*/
-
     void findPokemon() {
       pokemonBloc.add(FindPokemon(_search));
     }
+
+    // TODO: Implement delete pokemon
+    // TODO: Implement update Pokemon
+
+    // TODO: Implement Create type Pokemon
+    // TODO: Implement List Types Available
+    // TODO: Implement delete Type Of Pokemon
+    // TODO: Implement update type of pokemon
+
+    // TODO: Change icon of app
+    // TODO: home page implement reload list with scroll vertical
 
     return Scaffold(
       appBar: AppBar(
@@ -126,23 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(12.0),
                 child: ListPokemon(),
               ),
-              /*SizedBox(
-                height: responsive.hp(5),
-                child: ElevatedButton(
-                  onPressed: () => getPokemon(),
-                  child: const Text('get pokemon from api'),
-                ),
-              ),*/
               SizedBox(
                 height: responsive.hp(1),
               ),
-              /*SizedBox(
-                height: responsive.hp(5),
-                child: ElevatedButton(
-                  onPressed: () => reduceListPokemon(),
-                  child: const Text('reduce list'),
-                ),
-              ),*/
             ],
           ),
         ),

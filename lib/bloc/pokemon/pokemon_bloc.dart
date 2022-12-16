@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/services/repositories/repository_pokemon.dart';
@@ -46,6 +47,22 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
         if (event is ResetStateCreatedPokemon) {
           emit.call(state.copyWith(pokemonCreated: false));
         }
+
+        if (event is SetPokemon) {
+          emit.call(state.copyWith(pokemonSelected: event.pokemon));
+        }
+
+        if (event is DeletePokemon) {
+          emit.call(await _deletePokemon(event.idPokemon));
+        }
+
+        if (event is ClearState) {
+          emit.call(state.copyWith(
+            pokemonDeleted: false,
+            pokemonCreated: false,
+            loading: false,
+          ));
+        }
       },
     );
   }
@@ -76,5 +93,14 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
   PokemonState _setLoading(bool loading) {
     return state.copyWith(loading: loading);
+  }
+
+  Future<PokemonState> _deletePokemon(int idPokemon) async {
+    dynamic data = await _pokemonRepository.deletePokemon(idPokemon);
+    Pokemon pokemonDeleted = state.pokemon.firstWhere(
+      (element) => element.id == idPokemon,
+    );
+    state.pokemon.remove(pokemonDeleted);
+    return state.copyWith(pokemon: state.pokemon, pokemonDeleted: true);
   }
 }
