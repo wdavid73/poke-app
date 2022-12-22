@@ -25,8 +25,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   init() {
+    _getPokemon();
+  }
+
+  Future<void> _getPokemon() async {
     final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
-    // getPokemon();
     pokemonBloc.add(GetPokemon());
   }
 
@@ -46,6 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.pushNamed(context, 'create_pokemon');
   }
 
+  goToListType() {
+    closeDrawer();
+    Navigator.pushNamed(context, 'list_type_pokemon');
+  }
+
   @override
   Widget build(BuildContext context) {
     Responsive responsive = Responsive(context);
@@ -55,11 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
       pokemonBloc.add(FindPokemon(_search));
     }
 
-    // TODO: Implement delete pokemon
     // TODO: Implement update Pokemon
 
-    // TODO: Implement Create type Pokemon
     // TODO: Implement List Types Available
+    // TODO: Implement Create type Pokemon
     // TODO: Implement delete Type Of Pokemon
     // TODO: Implement update type of pokemon
 
@@ -90,6 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
               iconColor: Colors.lightBlueAccent,
               hoverColor: Colors.blueAccent,
               onTap: () => goToAddPokemon(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.list),
+              title: const Text("List type pokemon"),
+              iconColor: Colors.lightBlueAccent,
+              hoverColor: Colors.blueAccent,
+              onTap: () => goToListType(),
             ),
           ],
         ),
@@ -124,9 +138,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: ListPokemon(),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+                    pokemonBloc.add(GetPokemonRefresh());
+                    await pokemonBloc.stream.firstWhere(
+                      (e) => e is! GetPokemonRefresh,
+                    );
+                  },
+                  child: const ListPokemon(),
+                ),
               ),
               SizedBox(
                 height: responsive.hp(1),

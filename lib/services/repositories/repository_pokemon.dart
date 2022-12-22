@@ -6,7 +6,7 @@ Api api = Api();
 
 class PokemonRepository {
   Future<List<Pokemon>> getPokemon() async {
-    dynamic response = await api.get('pokemon/');
+    Response response = await api.get('pokemon/');
     return parsePokemon(response.data);
   }
 

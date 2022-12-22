@@ -7,6 +7,9 @@ class TagTypePokemon extends StatelessWidget {
   final double width;
   final double height;
   final int count;
+  final double aspectRatio;
+  final double? spaceVertical;
+  final double? spaceHorizontal;
 
   const TagTypePokemon({
     super.key,
@@ -14,6 +17,9 @@ class TagTypePokemon extends StatelessWidget {
     required this.width,
     this.height = 20,
     this.count = 2,
+    this.aspectRatio = 2,
+    this.spaceVertical, this.spaceHorizontal,
+
   });
 
   @override
@@ -23,7 +29,11 @@ class TagTypePokemon extends StatelessWidget {
       width: width,
       child: GridView.count(
         crossAxisCount: count,
-        childAspectRatio: 2,
+        childAspectRatio: aspectRatio,
+        padding: const EdgeInsets.only(bottom: 20),
+        crossAxisSpacing: spaceHorizontal ?? 0,
+        mainAxisSpacing: spaceVertical ?? 0,
+        shrinkWrap: true,
         children: List.generate(
           types.length,
           (index) {

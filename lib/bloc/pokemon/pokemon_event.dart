@@ -5,6 +5,8 @@ abstract class PokemonEvent {}
 
 class GetPokemon extends PokemonEvent {}
 
+class GetPokemonRefresh extends PokemonEvent {}
+
 class ReduceListPokemon extends PokemonEvent {}
 
 class FindPokemon extends PokemonEvent {

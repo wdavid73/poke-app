@@ -7,11 +7,15 @@ class PokemonState {
   final bool pokemonCreated;
   final bool pokemonDeleted;
   final Pokemon? pokemonSelected;
+  final bool isDone;
+  final bool hasError;
 
   PokemonState({
     this.pokemon = const <Pokemon>[],
     this.pokemonFiltered = const <Pokemon>[],
     this.loading = false,
+    this.isDone = false,
+    this.hasError = false,
     this.pokemonCreated = false,
     this.pokemonSelected,
     this.pokemonDeleted = false,
@@ -24,6 +28,8 @@ class PokemonState {
     bool? pokemonCreated,
     Pokemon? pokemonSelected,
     bool? pokemonDeleted,
+    bool? isDone,
+    bool? hasError,
   }) =>
       PokemonState(
         pokemon: pokemon ?? this.pokemon,
@@ -32,6 +38,8 @@ class PokemonState {
         pokemonCreated: pokemonCreated ?? this.pokemonCreated,
         pokemonSelected: pokemonSelected ?? this.pokemonSelected,
         pokemonDeleted: pokemonDeleted ?? this.pokemonDeleted,
+        isDone: isDone ?? this.isDone,
+        hasError: hasError ?? this.hasError,
       );
 
   @override
@@ -40,6 +48,8 @@ class PokemonState {
         "PokemonState: ${pokemon.length},\n"
         "pokemonCreated : $pokemonCreated,\n"
         "loading: $loading,\n"
+        "isDone: $isDone,\n"
+        "hasError: $hasError,\n"
         "pokemonSelected: $pokemonSelected\n"
         "";
   }
