@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
 import 'package:poke_app/utils/responsive.dart';
 import 'package:poke_app/widgets/shimmer/list_shimmer.dart';
-import 'package:poke_app/widgets/tag_type_pokemon.dart';
+import 'package:poke_app/pages/pokemon/widgets/tag_type_pokemon.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListTypePokemon extends StatefulWidget {
@@ -37,10 +37,11 @@ class _ListTypePokemonState extends State<ListTypePokemon> {
         onRefresh: () async {
           final typePokemonBloc = BlocProvider.of<TypePokemonBloc>(context);
           typePokemonBloc.add(GetTypePokemonRefresh());
-          await typePokemonBloc.stream.firstWhere((e) => e is! GetTypePokemonRefresh);
+          await typePokemonBloc.stream
+              .firstWhere((e) => e is! GetTypePokemonRefresh);
         },
         child: Container(
-          color: Colors.pink,
+          color: Colors.white,
           child: BlocBuilder<TypePokemonBloc, TypePokemonState>(
             builder: (context, state) {
               if (state.loading) {
@@ -63,7 +64,7 @@ class _ListTypePokemonState extends State<ListTypePokemon> {
                   child: TagTypePokemon(
                     width: responsive.width,
                     height: responsive.height,
-                    types: state.typePokemon,
+                    types: [],
                     aspectRatio: 5,
                     spaceVertical: responsive.hp(2),
                     count: 1,

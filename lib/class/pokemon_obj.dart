@@ -1,23 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:poke_app/class/type_pokemon.dart';
-
 class Pokemon {
   int? id;
   String name;
-  String description;
-  List<TypePokemon> type;
-  String skill;
+  String? description;
+  List<String> type;
+  String? skill;
   String image;
 
   Pokemon({
     this.id,
     required this.image,
     required this.name,
-    required this.description,
-    required this.skill,
-    this.type = const <TypePokemon>[],
+    this.description,
+    this.skill,
+    this.type = const <String>[],
   });
 
   @override
@@ -26,20 +24,20 @@ class Pokemon {
   }
 
   factory Pokemon.fromMap(Map<String, dynamic> data) {
-    List<TypePokemon> type = [];
-    if (data['type'] != null) {
+    /*List<TypePokemon> type = [];
+     if (data['type'] != null) {
       final item = data['type'];
       final arr = <TypePokemon>[];
       item.forEach((i) => arr.add(TypePokemon.fromMap(i)));
-      type = arr;
-    }
+      type  = arr;
+    }*/
     return Pokemon(
-      id: data['id'].toInt(),
-      name: data['name'].toString(),
-      description: data['description'].toString(),
-      skill: data['skill'].toString(),
-      image: data['image'].toString(),
-      type: type,
+      id: data['id'] as int,
+      name: data['name']["english"] as String,
+      // description: data['description'].toString(),
+      // skill: data['skill'].toString(),
+      image: data['image'] as String,
+      type: (data["type"] as List).map((item) => item as String).toList(),
     );
   }
 

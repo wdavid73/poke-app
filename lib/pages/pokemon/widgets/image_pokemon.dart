@@ -22,7 +22,7 @@ class ImagePokemon extends StatelessWidget {
       width: widthImage ?? responsive.wp(55),
       fit: BoxFit.fill,
       cache: true,
-      border: Border.all(color: Colors.white, width: 1.0),
+      border: Border.all(color: Colors.transparent, width: 1.0),
       shape: BoxShape.rectangle,
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       loadStateChanged: (ExtendedImageState state) {
@@ -35,13 +35,6 @@ class ImagePokemon extends StatelessWidget {
             return GestureDetector(
               child: Stack(
                 children: <Widget>[
-                  /* Center(
-                    child: Image.asset(
-                      "assets/images/failed.png",
-                      height: widget.responsive.hp(20),
-                      width: widget.responsive.wp(20),
-                    ),
-                  ), */
                   Positioned(
                     bottom: 0.0,
                     left: 0.0,

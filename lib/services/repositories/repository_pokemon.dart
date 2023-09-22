@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/services/api.dart';
 import 'package:poke_app/services/response.dart';
@@ -6,8 +9,11 @@ Api api = Api();
 
 class PokemonRepository {
   Future<List<Pokemon>> getPokemon() async {
-    Response response = await api.get('pokemon/');
-    return parsePokemon(response.data);
+    String jsonString = await rootBundle.loadString('assets/pokedex.json');
+    List<Pokemon> pokemon = parsePokemon(jsonString);
+    return pokemon;
+    // Response response = await api.get('pokemon/');
+    // return parsePokemon(response.data);
   }
 
   Future<Response> createPokemon(Map<String, dynamic> pokemon) async {

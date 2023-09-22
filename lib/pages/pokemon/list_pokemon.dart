@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
 import 'package:poke_app/utils/responsive.dart';
-import 'package:poke_app/widgets/item_pokemon.dart';
+import 'package:poke_app/pages/pokemon/widgets/item_pokemon.dart';
 import 'package:poke_app/widgets/shimmer/grid_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -29,11 +29,14 @@ class ListPokemon extends StatelessWidget {
           );
         }
         if (state.isDone) {
-          return SizedBox(
-            height: responsive.hp(75),
+          return Container(
+            height: responsive.hp(80),
+            width: responsive.width,
+            padding: const EdgeInsets.all(10),
             child: GridView.count(
+              padding: EdgeInsets.zero,
               crossAxisCount: 2,
-              childAspectRatio: (responsive.width / responsive.height) * 1.5,
+              childAspectRatio: (1 / .6),
               children: List.generate(
                 state.pokemonFiltered.isEmpty
                     ? state.pokemon.length
@@ -53,7 +56,7 @@ class ListPokemon extends StatelessWidget {
         if (state.hasError) {
           return SizedBox(
             width: responsive.width,
-            height: responsive.height,
+            height: responsive.hp(75),
             child: Center(
               child: Text(
                 "Has error!",

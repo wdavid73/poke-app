@@ -16,6 +16,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
         // event get pokemon
         if (event is GetPokemon) {
           emit.call(_setLoading(true));
+          await Future.delayed(const Duration(milliseconds: 1000));
           emit.call(await _getPokemon());
           emit.call(_setLoading(false));
         }
@@ -78,21 +79,23 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   }
 
   Future<PokemonState> _getPokemon() async {
-    try {
-      dynamic data = await _pokemonRepository.getPokemon();
-      List<Pokemon> pokemon = data;
-      return state.copyWith(
-        pokemon: pokemon,
-        isDone: true,
-        hasError: false,
-      );
-    } catch (e) {
+    /* try { */
+    dynamic data = await _pokemonRepository.getPokemon();
+    List<Pokemon> pokemon = data;
+    print(data);
+    return state.copyWith(
+      pokemon: pokemon,
+      isDone: true,
+      hasError: false,
+    );
+    /* } catch (e) {
+      print(e);
       return state.copyWith(
         pokemon: <Pokemon>[],
         isDone: false,
         hasError: true,
       );
-    }
+    } */
   }
 
   PokemonState _findPokemon(String name) {
