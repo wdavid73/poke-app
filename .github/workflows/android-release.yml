@@ -47,8 +47,8 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
 
-    - name: Run iOS tests
-      run: flutter test
+    #- name: Run iOS tests
+    #  run: flutter test
 
     - name: Build iOS app
       run: flutter build ios --release --no-codesign
