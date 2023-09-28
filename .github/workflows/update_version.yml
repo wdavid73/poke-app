@@ -26,10 +26,16 @@ jobs:
             cd ${{ github.workspace }}
             git checkout master
 
+        - name: Check pubspec.yaml file status (before)
+          run: cat pubspec.yaml
+
         - name: Bump version
           run: |
             cd ${{ github.workspace }}
             bumpversion patch
+
+        - name: Verify pubspec.yaml file status (after)
+          run: cat pubspec.yaml
 
         - name: Create bumpversion.log
           run: touch ${{ github.workspace }}/bumpversion.log
