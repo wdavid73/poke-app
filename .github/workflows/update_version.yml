@@ -3,7 +3,7 @@ name: Update Version
 on:
   push:
     branches:
-      - "master"
+      - master
   
 jobs:
     update_version:
@@ -12,15 +12,23 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
 
+        - name: Set up Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: '3.x'  # Ajusta la versión de Python según tu proyecto
+
+        - name: Install bumpversion
+          run: pip install bumpversion
+
         - name: Bump version
-          run: bumpversion patch  # Esto aumentará la versión en un parche (por ejemplo, de 1.0.0 a 1.0.1)
-        
-        - name: Commit changes
+          run: |
+            cd path/to/your/project
+            bumpversion patch  # Esto aumentará la versión en un parche (por ejemplo, de 1.0.0 a 1.0.1)
+
+        - name: Commit and push changes
           run: |
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
+            git add .
             git commit -m "Bump version [skip ci]"
-        - name: Push changes
-          uses: ad-m/github-push-action@v0.6.0
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+            git push
