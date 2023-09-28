@@ -1,0 +1,26 @@
+name: Update Version
+
+on:
+  push:
+    branches:
+      - "master"
+  
+jobs:
+    update_version:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Bump version
+          run: bumpversion patch  # Esto aumentará la versión en un parche (por ejemplo, de 1.0.0 a 1.0.1)
+        
+        - name: Commit changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git commit -m "Bump version [skip ci]"
+        - name: Push changes
+          uses: ad-m/github-push-action@v0.6.0
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
