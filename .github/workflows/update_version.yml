@@ -43,6 +43,7 @@ jobs:
         - name: Show command output
           run: cat ${{ github.workspace }}/bumpversion.log
 
+
         - name: Commit and push changes
           run: |
             git config --global user.email "wdavidw26@gmail.com"
