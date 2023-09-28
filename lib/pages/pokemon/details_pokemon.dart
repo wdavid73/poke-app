@@ -205,7 +205,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Name: ${state.pokemonSelected!.name}",
+                  "${state.pokemonSelected!.name}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(3),

@@ -43,12 +43,27 @@ jobs:
         - name: Show command output
           run: cat ${{ github.workspace }}/bumpversion.log
 
+        - name: Debug Logging
+          run: |
+            echo "Checking out code..."
+            git config --list  # Imprime la configuración de Git
+            echo "Git author identity:"
+            git config user.email
+            git config user.name
+            echo "Current branch:"
+            git branch
+            echo "Status before bumpversion:"
+            git status
+            echo "Pubspec.yaml before bumpversion:"
+            cat pubspec.yaml
 
         - name: Commit and push changes
           run: |
-            git config --global user.email "wdavidw26@gmail.com"
-            git config --global user.name "Wilson Padilla"
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
             git add .
             git commit -m "Bump version [skip ci]"
             git push
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
