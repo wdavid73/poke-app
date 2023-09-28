@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Build iOS
 
 on:
   push:
@@ -6,34 +6,6 @@ on:
       - master  # Ajusta esto a la rama principal de tu repositorio
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      
-      with:
-        flutter-version: '3.10.x'  # Ajusta esto a la versión de Flutter que estás utilizando
-
-    - name: Get dependencies
-      run: flutter pub get
-
-    #- name: Run tests
-    #  run: flutter test
-
-    - name: Build APK
-      run: flutter build apk --release
-
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-release
-        path: build/app/outputs/flutter-apk/app-release.apk
-
   build_ios:
     runs-on: macos-latest
     steps:

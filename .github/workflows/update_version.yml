@@ -26,36 +26,36 @@ jobs:
             cd ${{ github.workspace }}
             git checkout master
 
-        - name: Check pubspec.yaml file status (before)
-          run: cat pubspec.yaml
+        # - name: Check pubspec.yaml file status (before)
+        #  run: cat pubspec.yaml
 
         - name: Bump version
           run: |
             cd ${{ github.workspace }}
             bumpversion patch
 
-        - name: Verify pubspec.yaml file status (after)
-          run: cat pubspec.yaml
+        # - name: Verify pubspec.yaml file status (after)
+        #  run: cat pubspec.yaml
 
         - name: Create bumpversion.log
           run: touch ${{ github.workspace }}/bumpversion.log
 
-        - name: Show command output
-          run: cat ${{ github.workspace }}/bumpversion.log
+        # - name: Show command output
+        #  run: cat ${{ github.workspace }}/bumpversion.log
 
-        - name: Debug Logging
-          run: |
-            echo "Checking out code..."
-            git config --list  # Imprime la configuración de Git
-            echo "Git author identity:"
-            git config user.email
-            git config user.name
-            echo "Current branch:"
-            git branch
-            echo "Status before bumpversion:"
-            git status
-            echo "Pubspec.yaml before bumpversion:"
-            cat pubspec.yaml
+        # - name: Debug Logging
+        #  run: |
+        #    echo "Checking out code..."
+        #    git config --list  # Imprime la configuración de Git
+        #    echo "Git author identity:"
+        #    git config user.email
+        #    git config user.name
+        #    echo "Current branch:"
+        #    git branch
+        #    echo "Status before bumpversion:"
+        #    git status
+        #    echo "Pubspec.yaml before bumpversion:"
+        #    cat pubspec.yaml
 
         - name: Commit and push changes
           run: |
