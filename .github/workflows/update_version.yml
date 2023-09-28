@@ -22,7 +22,7 @@ jobs:
 
         - name: Bump version
           run: |
-            cd path/to/your/project
+            cd ${{ github.workspace }}
             bumpversion patch  # Esto aumentará la versión en un parche (por ejemplo, de 1.0.0 a 1.0.1)
 
         - name: Commit and push changes
