@@ -23,7 +23,10 @@ jobs:
         - name: Bump version
           run: |
             cd ${{ github.workspace }}
-            bumpversion patch  # Esto aumentará la versión en un parche (por ejemplo, de 1.0.0 a 1.0.1)
+            bumpversion patch
+
+        - name: Show command output
+          run: cat ${{ github.workspace }}/bumpversion.log
 
         - name: Commit and push changes
           run: |
