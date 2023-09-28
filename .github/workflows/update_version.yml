@@ -31,6 +31,9 @@ jobs:
             cd ${{ github.workspace }}
             bumpversion patch
 
+        - name: Create bumpversion.log
+          run: touch ${{ github.workspace }}/bumpversion.log
+
         - name: Show command output
           run: cat ${{ github.workspace }}/bumpversion.log
 
