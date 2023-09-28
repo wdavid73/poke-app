@@ -19,6 +19,12 @@ jobs:
 
         - name: Install bumpversion
           run: pip install bumpversion
+        - name: Configure Git author identity
+          run: |
+            git config --global user.email "wdavidw26@gmail.com"
+            git config --global user.name "Wilson Padilla"
+            cd ${{ github.workspace }}
+            git checkout main
 
         - name: Bump version
           run: |
@@ -35,3 +41,4 @@ jobs:
             git add .
             git commit -m "Bump version [skip ci]"
             git push
+
