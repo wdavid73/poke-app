@@ -27,8 +27,8 @@ jobs:
 
         - name: Commit and push changes
           run: |
-            git config --local user.email "wdavidw26@gmail.com"
-            git config --local user.name "Wilson Padilla"
+            git config --global user.email "wdavidw26@gmail.com"
+            git config --global user.name "Wilson Padilla"
             git add .
             git commit -m "Bump version [skip ci]"
             git push
