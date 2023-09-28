@@ -24,7 +24,7 @@ jobs:
             git config --global user.email "wdavidw26@gmail.com"
             git config --global user.name "Wilson Padilla"
             cd ${{ github.workspace }}
-            git checkout main
+            git checkout master
 
         - name: Bump version
           run: |
