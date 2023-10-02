@@ -1,0 +1,44 @@
+name: Update Compilate Number
+
+on:
+  push:
+    branches:
+      - main-deploy
+
+jobs:
+  update_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install bumpversion
+        run: pip install bumpversion
+
+      - name: Configure Git author identity
+        run: |
+          git config --global user.email "wdavidw26@gmail.com"
+          git config --global user.name "Wilson Padilla"
+          cd ${{ github.workspace }}
+          git checkout main-deploy
+      
+      - name: Bump version
+        run: |
+          cd ${{ github.workspace }}
+          bumpversion build
+      
+      - name: Create bumpversion_build.log
+        run: touch ${{ github.workspace }}/bumpversion_build.log
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
