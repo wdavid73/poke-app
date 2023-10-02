@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "34640422415",
+    "project_id": "poke-app-38286",
+    "storage_bucket": "poke-app-38286.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34640422415:android:9e98feea900095fc51657a",
+        "android_client_info": {
+          "package_name": "com.guicho.pokeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD88kWqe8lX81401fgHpyULpcd3vM1JLn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

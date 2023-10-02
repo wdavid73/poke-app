@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
@@ -5,7 +7,9 @@ import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
 import 'package:poke_app/pages/home.dart';
 import 'package:poke_app/utils/routes.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp();
+  FirebaseAnalytics.instance;
   runApp(const AppState());
 }
 
