@@ -6,7 +6,7 @@ on:
       - main-deploy
 
 jobs:
-  update_version:
+  update_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,7 +25,7 @@ jobs:
           git config --global user.email "wdavidw26@gmail.com"
           git config --global user.name "Wilson Padilla"
           cd ${{ github.workspace }}
-          git checkout master
+          git checkout main-deploy
       
       - name: Bump version
         run: |
