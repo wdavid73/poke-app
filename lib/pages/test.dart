@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:poke_app/utils/my_colors.dart';
 import 'package:poke_app/utils/responsive.dart';
@@ -38,12 +36,10 @@ class _TestPageState extends State<TestPage> {
             GestureDetector(
               onHorizontalDragUpdate: (e) {
                 if (e.delta.dx > 0) {
-                  print('horizontal : 1');
                   setState(() {
                     value = 1;
                   });
                 } else {
-                  print('horizontal : 0');
                   setState(() {
                     value = 0;
                   });

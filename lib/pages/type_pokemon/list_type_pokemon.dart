@@ -64,7 +64,7 @@ class _ListTypePokemonState extends State<ListTypePokemon> {
                   child: TagTypePokemon(
                     width: responsive.width,
                     height: responsive.height,
-                    types: [],
+                    types: const [],
                     aspectRatio: 5,
                     spaceVertical: responsive.hp(2),
                     count: 1,

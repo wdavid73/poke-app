@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/services/repositories/repository_pokemon.dart';
 
@@ -82,7 +81,6 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     /* try { */
     dynamic data = await _pokemonRepository.getPokemon();
     List<Pokemon> pokemon = data;
-    print(data);
     return state.copyWith(
       pokemon: pokemon,
       isDone: true,
@@ -121,7 +119,6 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   }
 
   Future<PokemonState> _deletePokemon(int idPokemon) async {
-    dynamic data = await _pokemonRepository.deletePokemon(idPokemon);
     Pokemon pokemonDeleted = state.pokemon.firstWhere(
       (element) => element.id == idPokemon,
     );

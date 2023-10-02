@@ -56,7 +56,6 @@ class _DetailsPokemonState extends State<DetailsPokemon>
     final Responsive responsive = Responsive(context);
     return BlocBuilder<PokemonBloc, PokemonState>(
       builder: (context, state) {
-        Color? color = _getPokemonColor(state.pokemonSelected!);
         return Scaffold(
           appBar: AppBar(
             elevation: 0,

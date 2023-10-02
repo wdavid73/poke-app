@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/services.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/services/api.dart';
