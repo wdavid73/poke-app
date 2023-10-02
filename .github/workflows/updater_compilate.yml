@@ -3,7 +3,7 @@ name: Update Compilate Number
 on:
   push:
     branches:
-      - main-deploy
+      - android-deploy-test
 
 jobs:
   update_build:
