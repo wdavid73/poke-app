@@ -46,7 +46,7 @@ jobs:
         run: flutter clean
 
       - name: Build iOS - No CodeSign
-        run: flutter build- ios --release --no-codesign
+        run: flutter build ios --release --no-codesign
 
   build_appbundle:
     name: Build Flutter for Android

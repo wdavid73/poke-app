@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:34640422415:android:9e98feea900095fc51657a",
+        "mobilesdk_app_id": "1:34640422415:android:34aa8a71e2901cd451657a",
         "android_client_info": {
-          "package_name": "com.guicho.pokeapp"
+          "package_name": "com.example.poke_app"
         }
       },
       "oauth_client": [],
