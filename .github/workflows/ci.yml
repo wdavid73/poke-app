@@ -82,6 +82,6 @@ jobs:
           appId: ${{ secrets.FIREBASE_APPID }}
           serviceCredentialsFileContent: ${{secrets.CREDENTIAL_FILE_CONTENT}}
           groups: poke-app-testers
-          file: build/app /outputs/flutter-apk/app-release.apk
+          file: build/app/outputs/flutter-apk/app-release.apk
           
 
