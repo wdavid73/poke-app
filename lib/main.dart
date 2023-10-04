@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
@@ -5,7 +6,9 @@ import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
 import 'package:poke_app/pages/home.dart';
 import 'package:poke_app/utils/routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const AppState());
 }
 

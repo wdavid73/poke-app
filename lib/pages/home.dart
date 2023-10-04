@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Responsive responsive = Responsive(context);
-    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+    // final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
 
     // TODO: Implement update Pokemon
 

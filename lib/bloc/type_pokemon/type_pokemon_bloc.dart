@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/class/type_pokemon.dart';
 import 'package:poke_app/services/repositories/repository_type_pokemon.dart';
 
