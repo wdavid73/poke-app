@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
-import 'package:poke_app/pages/pokemon/list_pokemon.dart';
 import 'package:poke_app/ui/color_manager.dart';
+import 'package:poke_app/utils/navigation_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
-import 'package:poke_app/widgets/input_custom.dart';
+import 'package:poke_app/widgets/search_pokemon.dart';
 import 'package:poke_app/widgets/water_mark.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,28 +13,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
-
-  init() {
-    _getPokemon();
-  }
-
-  Future<void> _getPokemon() async {
-    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
-    pokemonBloc.add(GetPokemon());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
-    pokemonBloc.close();
-  }
-
   closeDrawer() {
     Navigator.pop(context);
   }
@@ -56,10 +32,14 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.pushNamed(context, 'test_page');
   }
 
+  goToListPokemon() {
+    closeDrawer();
+    NavigationManager.go(context, "list_pokemon");
+  }
+
   @override
   Widget build(BuildContext context) {
     Responsive responsive = Responsive(context);
-    // final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
 
     // TODO: Implement update Pokemon
 
@@ -72,138 +52,296 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: home page implement reload list with scroll vertical
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: Colors.black,
-      ),
-      extendBodyBehindAppBar: true,
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.white70,
-              ),
-              child: Image.asset(
-                "assets/images/pokemon_logo.png",
-                height: responsive.hp(20),
-                width: responsive.wp(20),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.add_circle_outline),
-              title: const Text("Add Pokemon"),
-              iconColor: Colors.lightBlueAccent,
-              hoverColor: Colors.blueAccent,
-              onTap: () => goToAddPokemon(),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list),
-              title: const Text("List type pokemon"),
-              iconColor: Colors.lightBlueAccent,
-              hoverColor: Colors.blueAccent,
-              onTap: () => goToListType(),
-            ),
-            ListTile(
-              leading: const Icon(Icons.terrain_sharp),
-              title: const Text("Test"),
-              iconColor: Colors.lightBlueAccent,
-              hoverColor: Colors.blueAccent,
-              onTap: () => goToTest(),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: responsive.width,
-              height: responsive.height,
-              child: Stack(
+      body: SafeArea(
+        child: Container(
+          width: responsive.width,
+          height: responsive.height,
+          color: ColorManager.lightGreyVariationTwo,
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: responsive.width,
+                height: responsive.hp(70),
                 alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    left: 20,
-                    top: responsive.dp(10),
-                    child: Text(
-                      "Pokedex",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorManager.textPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: responsive.dp(3),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(24),
+                    bottomRight: Radius.circular(24),
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: responsive.wp(60),
+                      top: -responsive.hp(15),
+                      child: const WaterMark(
+                        opacity: 0.2,
+                        color: Colors.grey,
+                        size: 30,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: responsive.wp(60),
-                    top: -responsive.hp(10),
-                    child: const WaterMark(
-                      opacity: 0.2,
-                      color: Colors.grey,
-                      size: 30,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: kToolbarHeight,
+                          ),
+                          Text(
+                            "What Pokemon",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: ColorManager.textPrimary,
+                              fontSize: responsive.dp(4),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "are you looking for?",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: ColorManager.textPrimary,
+                              fontSize: responsive.dp(4),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SearchPokemon(
+                            responsive: responsive,
+                          ),
+                          Expanded(
+                            child: GridView.count(
+                              padding: EdgeInsets.zero,
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: (1 / 0.5),
+                              children: [
+                                ItemMenu(
+                                  colorItem: Colors.greenAccent,
+                                  title: "Pokedex",
+                                  onTap: () => goToListPokemon(),
+                                ),
+                                const ItemMenu(
+                                  colorItem: Colors.blueAccent,
+                                  title: "Abilities",
+                                ),
+                                const ItemMenu(
+                                  colorItem: Colors.purpleAccent,
+                                  title: "Locations",
+                                ),
+                                const ItemMenu(
+                                  colorItem: Colors.redAccent,
+                                  title: "Moves",
+                                ),
+                                const ItemMenu(
+                                  colorItem: Colors.amberAccent,
+                                  title: "Items",
+                                ),
+                                const ItemMenu(
+                                  colorItem: Colors.brown,
+                                  title: "Type Charts",
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: responsive.dp(15),
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        // print("reload");
-                      },
-                      child: const ListPokemon(),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: responsive.hp(1),
-            ),
-          ],
+              Expanded(
+                child: Container(
+                  width: responsive.width,
+                  height: responsive.hp(25),
+                  alignment: Alignment.center,
+                  child: const PokeNews(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class SearchPokemon extends StatelessWidget {
-  const SearchPokemon({
-    super.key,
-    required this.responsive,
-  });
-
-  final Responsive responsive;
+class PokeNews extends StatelessWidget {
+  const PokeNews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SizedBox(
-        height: responsive.hp(5),
+    final Responsive responsive = Responsive(context);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Pokémon News",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: responsive.dp(2.5),
+                ),
+              ),
+              Text(
+                "View All",
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: responsive.dp(2),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return NewsItem(height: responsive.hp(12));
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class ItemMenu extends StatelessWidget {
+  final Color colorItem;
+  final String title;
+  final void Function()? onTap;
+  const ItemMenu(
+      {super.key, required this.colorItem, required this.title, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
+    double margin = 15;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
         width: responsive.width,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InputCustom(
-              responsive: responsive,
-              labelText: "Search",
-              hintText: "Search Pokemon",
-              onChange: (text) => {},
-            ),
-            ElevatedButton(
-              onPressed: () => {},
-              child: const Text('Find'),
-            ),
+        height: responsive.hp(10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: darken(colorItem),
+          boxShadow: [
+            BoxShadow(
+              color: colorItem.withOpacity(0.8),
+              blurRadius: 25,
+              offset: const Offset(0, 5),
+            )
           ],
         ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                left: -responsive.wp(20),
+                top: -responsive.hp(14),
+                child: WaterMark(
+                  opacity: 0.5,
+                  size: 15,
+                  color: lighten(colorItem),
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.symmetric(horizontal: margin),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: responsive.dp(2),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: -responsive.wp(7),
+                top: -responsive.hp(2),
+                child: WaterMark(
+                  opacity: 0.5,
+                  size: 10,
+                  color: lighten(colorItem),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class NewsItem extends StatelessWidget {
+  final double height;
+  const NewsItem({super.key, required this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
+    return Column(
+      children: [
+        Container(
+          height: height,
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: responsive.wp(50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Pokemon Rumble Rush Arrives Soon",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: responsive.dp(1.6),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "15 may 2023",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: responsive.dp(1.2),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(),
+      ],
     );
   }
 }

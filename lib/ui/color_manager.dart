@@ -9,6 +9,7 @@ class ColorManager {
   static Color white = Colors.white;
   static Color lightGrey = HexColor("#d5d6cf");
   static Color lightGreyVariation = HexColor("#EBEEF5");
+  static Color lightGreyVariationTwo = HexColor("#f5f5f5");
   static Color darkGrey = HexColor("#a4a59e");
   static Color error = HexColor("#EF5350");
   static Color divider = HexColor("#BDBDBD");
@@ -52,4 +53,13 @@ Color lighten(Color color, [double amount = .1]) {
   final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
   return hslLight.toColor();
+}
+
+Color darken(Color color, [double amount = .1]) {
+  assert(amount >= 0 && amount <= 1);
+
+  final hsl = HSLColor.fromColor(color);
+  final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+
+  return hslDark.toColor();
 }

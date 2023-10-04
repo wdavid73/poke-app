@@ -21,6 +21,8 @@ class InputCustom extends StatelessWidget {
   final void Function()? showPassword;
   final void Function(String text) onChange;
   final String? Function(String? text)? validator;
+  final Color fillColor;
+  final InputBorder? borderStyle;
 
   const InputCustom({
     Key? key,
@@ -42,10 +44,19 @@ class InputCustom extends StatelessWidget {
     this.enabled = true,
     this.initialValue,
     this.prefixText,
+    this.fillColor = Colors.white,
+    this.borderStyle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var borderInput = borderStyle ??
+        OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Colors.black45,
+          ),
+        );
     return SizedBox(
       width: inputWidth ?? responsive.wp(80),
       child: TextFormField(
@@ -66,45 +77,35 @@ class InputCustom extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: isPasswordField
               ? IconButton(
-            onPressed: () => showPassword!(),
-            icon: Icon(
-              isPassword
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              color: Colors.lightBlueAccent,
-            ),
-          )
+                  onPressed: () => showPassword!(),
+                  icon: Icon(
+                    isPassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.lightBlueAccent,
+                  ),
+                )
               : null,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.black45,
-            ),
-          ),
+          enabledBorder: borderInput,
           filled: true,
-          fillColor: Colors.white,
+          fillColor: fillColor,
           focusColor: Colors.white70,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.black45,
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.black45,
-            ),
-          ),
+          focusedBorder: borderInput,
+          border: borderInput,
           labelText: labelText,
           contentPadding:
-          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           labelStyle: TextStyle(
             color: Colors.black54,
             fontWeight: FontWeight.bold,
             fontSize: responsive.dp(1.6),
           ),
           hintText: hintText,
+          hintStyle: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+            fontSize: responsive.dp(1.6),
+          ),
         ),
         controller: controller,
         inputFormatters: toUpperCase ? [UpperCaseTextFormatter()] : [],
