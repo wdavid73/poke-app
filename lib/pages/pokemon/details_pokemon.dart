@@ -33,7 +33,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
 
   Color? _getPokemonColor(Pokemon pokemon) {
     TypePokemonData? typePokemon;
-    for (String type in pokemon.type) {
+    /* for (String type in pokemon.type) {
       typePokemon = typesPokemonData.firstWhere(
         (item) => item.name == type,
       );
@@ -41,7 +41,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
     }
     if (typePokemon != null) {
       return typePokemon.color;
-    }
+    } */
     return Colors.grey;
   }
 
@@ -74,7 +74,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
             width: responsive.width,
             height: responsive.height,
             decoration: BoxDecoration(
-              color: _getPokemonColor(state.pokemonSelected!),
+              /* color: _getPokemonColor(state.pokemonSelected!), */
               image: const DecorationImage(
                 image: AssetImage('assets/images/background_details.jpg'),
                 fit: BoxFit.cover,
@@ -94,7 +94,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                     width: responsive.wp(60) / 1.1,
                     height: responsive.hp(30) / 1.1,
                     decoration: BoxDecoration(
-                      color: lighten(_getPokemonColor(state.pokemonSelected!)!),
+                      /* color: lighten(_getPokemonColor(state.pokemonSelected!)!), */
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
@@ -103,7 +103,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                   top: responsive.dp(45),
                   child: _tabPokemonDetails(responsive, state),
                 ),
-                Positioned(
+                /* Positioned(
                   top: responsive.dp(23),
                   child: Container(
                     /* width: responsive.wp(55),
@@ -117,7 +117,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                       ),
                     ),
                   ),
-                ),
+                ), */
               ],
             ),
           ),
@@ -204,7 +204,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  state.pokemonSelected!.name,
+                  "state.pokemonSelected!.name",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(3),
@@ -212,7 +212,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                   ),
                 ),
                 Text(
-                  "#${state.pokemonSelected!.id}",
+                  "#state.pokemonSelected!.id",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(2),
@@ -225,13 +225,13 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TagTypePokemon(
+                /* TagTypePokemon(
                   orientation: 'horizontal',
                   types: state.pokemonSelected!.type,
                   width: responsive.wp(50),
                   height: responsive.hp(5),
                   lightenColor: true,
-                ),
+                ), */
                 Text(
                   "Extra",
                   style: TextStyle(

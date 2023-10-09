@@ -69,26 +69,13 @@ class _CreatePokemonState extends State<CreatePokemon> {
     var isOK = _formKey.currentState!.validate();
     _image ?? snackBarMessage(context, "Please pick a image to pokemon");
     if (isOK && _image != null) {
-      dynamic data = PokemonFile(
+      /* dynamic data = PokemonFile(
         description: _description,
         name: _name,
         photo: _image,
         skill: _skill,
         typeId: _selectedTypes.map((item) => item.id.toString()).toList(),
-      );
-
-      pokemonBloc.add(CreatePokemonEvent(data));
-      pokemonBloc.stream.listen((event) {
-        if (event.pokemonCreated && !event.loading) {
-          setState(() {
-            _selectedTypes.clear();
-            _image = null;
-          });
-          snackBarMessage(context, "Pokemon created successfully");
-          FocusScope.of(context).unfocus();
-          _formKey.currentState!.reset();
-        }
-      });
+      ); */
     }
   }
 

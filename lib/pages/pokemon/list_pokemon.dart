@@ -113,16 +113,15 @@ class _ListPokemonState extends State<ListPokemon> {
                                 crossAxisCount: 2,
                                 childAspectRatio: (1 / .6),
                                 children: List.generate(
-                                  state.pokemonFiltered.isEmpty
-                                      ? state.pokemon.length
-                                      : state.pokemonFiltered.length,
+                                  10,
                                   (index) {
-                                    return ItemPokemon(
+                                    return Text("$index");
+                                    /* return ItemPokemon(
                                       responsive: responsive,
                                       pokemon: state.pokemonFiltered.isEmpty
                                           ? state.pokemon[index]
                                           : state.pokemonFiltered[index],
-                                    );
+                                    ); */
                                   },
                                 ),
                               ),

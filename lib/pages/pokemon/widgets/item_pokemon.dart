@@ -27,17 +27,17 @@ class _ItemPokemonState extends State<ItemPokemon> {
   @override
   Widget build(BuildContext context) {
     TypePokemonData? typePokemon;
-    for (String type in widget.pokemon.type) {
+    /* for (String type in widget.pokemon.type) {
       typePokemon = typesPokemonData.firstWhere(
         (item) => item.name == type,
       );
       break;
-    }
+    } */
 
     return GestureDetector(
       onTap: () {
-        BlocProvider.of<PokemonBloc>(context).add(SetPokemon(widget.pokemon));
-        Navigator.pushNamed(context, 'details_pokemon');
+        /* BlocProvider.of<PokemonBloc>(context).add(SetPokemon(widget.pokemon));
+        Navigator.pushNamed(context, 'details_pokemon'); */
       },
       child: Card(
         color: typePokemon != null
@@ -77,11 +77,11 @@ class _ItemPokemonState extends State<ItemPokemon> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TagTypePokemon(
+                      /* TagTypePokemon(
                         types: widget.pokemon.type,
                         width: widget.responsive.wp(15),
                         height: widget.responsive.hp(8),
-                      ),
+                      ), */
                     ],
                   ),
                   Expanded(

@@ -18,14 +18,14 @@ class DialogDeletePokemon extends StatelessWidget {
 
     onConfirm() {
       if (id != null) {
-        pokemonBloc.add(DeletePokemon(id!));
+        /*  pokemonBloc.add(DeletePokemon(id!));
         pokemonBloc.stream.listen((event) {
           if (event.pokemonDeleted) {
             snackBarMessage(context, "Pokemon deleted successfully");
             Navigator.pop(context, true);
             pokemonBloc.add(ClearState());
           }
-        });
+        }); */
       }
     }
 
