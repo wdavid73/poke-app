@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
+// import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
 import 'package:poke_app/utils/responsive.dart';
 import 'package:poke_app/widgets/dialog_container.dart';
-import 'package:poke_app/widgets/snack_bar_message.dart';
+// import 'package:poke_app/widgets/snack_bar_message.dart';
 
 class DialogDeletePokemon extends StatelessWidget {
   final int? id;
@@ -14,7 +14,7 @@ class DialogDeletePokemon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    final PokemonBloc pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+    // final PokemonBloc pokemonBloc = BlocProvider.of<PokemonBloc>(context);
 
     onConfirm() {
       if (id != null) {
