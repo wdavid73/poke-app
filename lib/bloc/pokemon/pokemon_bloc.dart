@@ -26,6 +26,13 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
           emit.call(state.copyWith(loading: false));
         }
 
+        // event get pokemon detail
+        if (event is GetPokemonDetail) {
+          emit.call(state.copyWith(loading: true));
+          await Future.delayed(duration);
+          emit.call(await _getPokemonDetail(event.id));
+        }
+
         if (event is ClearState) {
           emit.call(state.copyWith(
             pokemon: [],
@@ -44,12 +51,23 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
         loading: false,
         isDone: false,
         hasError: true,
+        errorMessage: "${response.error!.error}",
       );
     }
     return state.copyWith(
       loading: false,
       isDone: true,
       hasError: false,
+      total: response.data["total"],
+      pokemon: response.data["data"],
     );
+  }
+
+  Future<PokemonState> _getPokemonDetail(int id) async {
+    ResponseState response = await _pokemonUseCase.getPokemonDetail(id);
+    if (response is ResponseFailed) {
+      return state.copyWith(errorMessage: "${response.error!.error}");
+    }
+    return state.copyWith(pokemonDetail: response.data);
   }
 }

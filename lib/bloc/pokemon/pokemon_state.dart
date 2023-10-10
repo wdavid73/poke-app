@@ -7,6 +7,8 @@ class PokemonState {
   final bool hasError;
   final Map<String, dynamic> params;
   final int total;
+  final String errorMessage;
+  final PokemonDetails? pokemonDetail;
 
   PokemonState({
     this.pokemon = const <Pokemon>[],
@@ -14,10 +16,12 @@ class PokemonState {
     this.isDone = false,
     this.hasError = false,
     this.total = 0,
+    this.errorMessage = '',
     this.params = const {
       "offset": 20,
       "limit": 20,
     },
+    this.pokemonDetail,
   });
 
   PokemonState copyWith({
@@ -27,6 +31,8 @@ class PokemonState {
     bool? hasError,
     Map<String, dynamic>? params,
     int? total,
+    String? errorMessage,
+    PokemonDetails? pokemonDetail,
   }) =>
       PokemonState(
         pokemon: pokemon ?? this.pokemon,
@@ -35,6 +41,8 @@ class PokemonState {
         params: params ?? this.params,
         isDone: isDone ?? this.isDone,
         hasError: hasError ?? this.hasError,
+        errorMessage: errorMessage ?? this.errorMessage,
+        pokemonDetail: pokemonDetail ?? this.pokemonDetail,
       );
 
   @override

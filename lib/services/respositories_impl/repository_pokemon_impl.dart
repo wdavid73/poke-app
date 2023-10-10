@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/services/api.dart';
 import 'package:poke_app/services/api_endpoint.dart';
 import 'package:poke_app/services/repositories/repository_pokemon.dart';
@@ -13,8 +14,29 @@ class PokemonRepositoryImpl extends PokemonRepository {
   Future<ResponseState> getPokemon() async {
     try {
       final response = await _client.get(ApiEndpoint.pokemon);
-      print(response);
-      return ResponseSuccess(null, response.statusCode!);
+      List<Pokemon> pokemon = parsePokemon(response.data["results"]);
+      return ResponseSuccess({
+        "total": response.data["count"] as int,
+        "data": pokemon,
+      }, response.statusCode!);
+    } catch (e) {
+      return ResponseFailed(
+        DioException(
+          error: e,
+          requestOptions: RequestOptions(
+            path: ApiEndpoint.pokemon,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<ResponseState> getPokemonDetail(int id) async {
+    try {
+      final response = await _client.get("${ApiEndpoint.pokemon}/$id/");
+      final PokemonDetails pokemon = parsePokemonDetails(response.data);
+      return ResponseSuccess(pokemon, response.statusCode!);
     } catch (e) {
       return ResponseFailed(
         DioException(

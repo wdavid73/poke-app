@@ -6,10 +6,37 @@ import 'package:poke_app/pages/pokemon/widgets/image_pokemon.dart';
 import 'package:poke_app/pages/pokemon/widgets/tag_type_pokemon.dart';
 import 'package:poke_app/ui/color_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
+import 'package:poke_app/utils/string_extension.dart';
 import 'package:poke_app/utils/types.dart';
 
+class DetailsContainerPokemon extends StatelessWidget {
+  const DetailsContainerPokemon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Pokemon;
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_border,
+            ),
+          )
+        ],
+      ),
+      extendBodyBehindAppBar: true,
+      body: DetailsPokemon(pokemon: args),
+    );
+  }
+}
+
 class DetailsPokemon extends StatefulWidget {
-  const DetailsPokemon({super.key});
+  final Pokemon pokemon;
+  const DetailsPokemon({super.key, required this.pokemon});
 
   @override
   State<DetailsPokemon> createState() => _DetailsPokemonState();
@@ -28,20 +55,26 @@ class _DetailsPokemonState extends State<DetailsPokemon>
   @override
   void initState() {
     _tabController = TabController(length: myTabs.length, vsync: this);
+    _init();
     super.initState();
   }
 
-  Color? _getPokemonColor(Pokemon pokemon) {
+  void _init() {
+    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+    pokemonBloc.add(GetPokemonDetail(id: widget.pokemon.id!));
+  }
+
+  Color? _getPokemonColor(PokemonDetails pokemon) {
     TypePokemonData? typePokemon;
-    /* for (String type in pokemon.type) {
+    for (String type in pokemon.types) {
       typePokemon = typesPokemonData.firstWhere(
-        (item) => item.name == type,
+        (item) => item.name == type.capitalize(),
       );
       break;
     }
     if (typePokemon != null) {
       return typePokemon.color;
-    } */
+    }
     return Colors.grey;
   }
 
@@ -54,79 +87,70 @@ class _DetailsPokemonState extends State<DetailsPokemon>
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return BlocBuilder<PokemonBloc, PokemonState>(
+    return BlocConsumer<PokemonBloc, PokemonState>(
+      listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                ),
-              )
-            ],
+        return Container(
+          width: responsive.width,
+          height: responsive.height,
+          decoration: BoxDecoration(
+            color: _getPokemonColor(state.pokemonDetail!),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/background_details.jpg'),
+              fit: BoxFit.cover,
+              opacity: 0.1,
+            ),
           ),
-          extendBodyBehindAppBar: true,
-          body: Container(
-            width: responsive.width,
-            height: responsive.height,
-            decoration: BoxDecoration(
-              /* color: _getPokemonColor(state.pokemonSelected!), */
-              image: const DecorationImage(
-                image: AssetImage('assets/images/background_details.jpg'),
-                fit: BoxFit.cover,
-                opacity: 0.1,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Positioned(
+                top: responsive.dp(10),
+                child: _titlePokemon(
+                  pokemonId: widget.pokemon.id!,
+                  pokemonName: widget.pokemon.name,
+                  pokemonTypes: state.pokemonDetail!.types,
+                  responsive: responsive,
+                ),
               ),
-            ),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Positioned(
-                  top: responsive.dp(10),
-                  child: _titlePokemon(state, responsive),
-                ),
-                Positioned(
-                  top: responsive.dp(24),
-                  child: Container(
-                    width: responsive.wp(60) / 1.1,
-                    height: responsive.hp(30) / 1.1,
-                    decoration: BoxDecoration(
-                      /* color: lighten(_getPokemonColor(state.pokemonSelected!)!), */
-                      borderRadius: BorderRadius.circular(100),
-                    ),
+              Positioned(
+                top: responsive.dp(24),
+                child: Container(
+                  width: responsive.wp(60) / 1.1,
+                  height: responsive.hp(30) / 1.1,
+                  decoration: BoxDecoration(
+                    color: lighten(_getPokemonColor(state.pokemonDetail!)!),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                Positioned(
-                  top: responsive.dp(45),
-                  child: _tabPokemonDetails(responsive, state),
-                ),
-                /* Positioned(
-                  top: responsive.dp(23),
-                  child: Container(
-                    /* width: responsive.wp(55),
+              ),
+              Positioned(
+                top: responsive.dp(45),
+                child: _tabPokemonDetails(responsive),
+              ),
+              Positioned(
+                top: responsive.dp(23),
+                child: Container(
+                  /* width: responsive.wp(55),
                     height: responsive.hp(30), */
-                    color: Colors.transparent,
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: ImagePokemon(
-                        pokemon: state.pokemonSelected!,
-                        responsive: responsive,
-                      ),
+                  color: Colors.transparent,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: ImagePokemon(
+                      pokemon: widget.pokemon,
+                      responsive: responsive,
                     ),
                   ),
-                ), */
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
 
-  SizedBox _tabPokemonDetails(Responsive responsive, PokemonState state) {
+  SizedBox _tabPokemonDetails(Responsive responsive) {
     return SizedBox(
       width: responsive.width,
       height: responsive.hp(75),
@@ -191,7 +215,12 @@ class _DetailsPokemonState extends State<DetailsPokemon>
     );
   }
 
-  Widget _titlePokemon(PokemonState state, Responsive responsive) {
+  Widget _titlePokemon({
+    required String pokemonName,
+    required int pokemonId,
+    required List<String> pokemonTypes,
+    required Responsive responsive,
+  }) {
     return SizedBox(
       width: responsive.width,
       height: responsive.hp(12),
@@ -204,7 +233,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "state.pokemonSelected!.name",
+                  pokemonName.capitalize(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(3),
@@ -212,7 +241,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                   ),
                 ),
                 Text(
-                  "#state.pokemonSelected!.id",
+                  "#$pokemonId",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(2),
@@ -225,13 +254,13 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /* TagTypePokemon(
+                TagTypePokemon(
                   orientation: 'horizontal',
-                  types: state.pokemonSelected!.type,
+                  types: pokemonTypes,
                   width: responsive.wp(50),
                   height: responsive.hp(5),
                   lightenColor: true,
-                ), */
+                ),
                 Text(
                   "Extra",
                   style: TextStyle(

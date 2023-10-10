@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
 import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
-import 'package:poke_app/class/pokemon_obj.dart';
 import 'package:poke_app/class/type_pokemon.dart';
 import 'package:poke_app/ui/color_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
@@ -23,7 +22,7 @@ class CreatePokemon extends StatefulWidget {
 class _CreatePokemonState extends State<CreatePokemon> {
   File? _image;
   bool _imageNull = false, isLoading = false;
-  String _name = '', _description = '', _skill = '';
+  // String _name = '', _description = '', _skill = '';
   List<TypePokemon> _selectedTypes = <TypePokemon>[];
   final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<FormFieldState<dynamic>> _selectKey = GlobalKey();
@@ -65,7 +64,7 @@ class _CreatePokemonState extends State<CreatePokemon> {
   }
 
   createPokemon() async {
-    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+    // final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
     var isOK = _formKey.currentState!.validate();
     _image ?? snackBarMessage(context, "Please pick a image to pokemon");
     if (isOK && _image != null) {
@@ -120,7 +119,7 @@ class _CreatePokemonState extends State<CreatePokemon> {
                     responsive: responsive,
                     labelText: "Name of Pokemon",
                     hintText: "Name",
-                    onChange: (text) => _name = text,
+                    onChange: (text) => {},
                     validator: (text) {
                       if (text!.isEmpty) {
                         return "Please enter name of pokemon";
@@ -135,7 +134,7 @@ class _CreatePokemonState extends State<CreatePokemon> {
                     responsive: responsive,
                     labelText: "Description of Pokemon",
                     hintText: "Description",
-                    onChange: (text) => _description = text,
+                    onChange: (text) => {},
                   ),
                 ),
                 Padding(
@@ -144,7 +143,7 @@ class _CreatePokemonState extends State<CreatePokemon> {
                     responsive: responsive,
                     labelText: "Skill of Pokemon",
                     hintText: "Skill",
-                    onChange: (text) => _skill = text,
+                    onChange: (text) => {},
                     validator: (text) {
                       if (text!.isEmpty) {
                         return "Please enter skill of pokemon";

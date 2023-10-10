@@ -60,28 +60,8 @@ class _ListPokemonState extends State<ListPokemon> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(
-                    left: 20,
-                    top: responsive.dp(10),
-                    child: Text(
-                      "Pokedex",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorManager.textPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: responsive.dp(3),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: responsive.wp(60),
-                    top: -responsive.hp(10),
-                    child: const WaterMark(
-                      opacity: 0.2,
-                      color: Colors.grey,
-                      size: 30,
-                    ),
-                  ),
+                  _titlePage(responsive),
+                  _waterMark(responsive),
                   Positioned(
                     top: responsive.dp(15),
                     child: RefreshIndicator(
@@ -113,15 +93,12 @@ class _ListPokemonState extends State<ListPokemon> {
                                 crossAxisCount: 2,
                                 childAspectRatio: (1 / .6),
                                 children: List.generate(
-                                  10,
+                                  state.pokemon.length,
                                   (index) {
-                                    return Text("$index");
-                                    /* return ItemPokemon(
+                                    return ItemPokemon(
                                       responsive: responsive,
-                                      pokemon: state.pokemonFiltered.isEmpty
-                                          ? state.pokemon[index]
-                                          : state.pokemonFiltered[index],
-                                    ); */
+                                      pokemon: state.pokemon[index],
+                                    );
                                   },
                                 ),
                               ),
@@ -131,14 +108,49 @@ class _ListPokemonState extends State<ListPokemon> {
                             return SizedBox(
                               width: responsive.width,
                               height: responsive.hp(75),
-                              child: Center(
-                                child: Text(
-                                  "Has error!",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: responsive.dp(3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: responsive.wp(70),
+                                    child: Text(
+                                      state.errorMessage,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: responsive.dp(2.7),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    width: responsive.wp(50),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Reload",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: responsive.dp(2),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Icon(
+                                            Icons.replay_outlined,
+                                            color: Colors.white,
+                                            size: responsive.dp(4),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             );
                           }
@@ -160,6 +172,34 @@ class _ListPokemonState extends State<ListPokemon> {
               height: responsive.hp(1),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Positioned _waterMark(Responsive responsive) {
+    return Positioned(
+      left: responsive.wp(60),
+      top: -responsive.hp(10),
+      child: const WaterMark(
+        opacity: 0.2,
+        color: Colors.grey,
+        size: 30,
+      ),
+    );
+  }
+
+  Positioned _titlePage(Responsive responsive) {
+    return Positioned(
+      left: 20,
+      top: responsive.dp(10),
+      child: Text(
+        "Pokedex",
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: ColorManager.textPrimary,
+          fontWeight: FontWeight.bold,
+          fontSize: responsive.dp(3),
         ),
       ),
     );

@@ -1,12 +1,9 @@
-// import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
+import 'package:poke_app/utils/navigation_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
-import 'package:poke_app/utils/types.dart';
+import 'package:poke_app/utils/string_extension.dart';
 import 'package:poke_app/pages/pokemon/widgets/image_pokemon.dart';
-import 'package:poke_app/pages/pokemon/widgets/tag_type_pokemon.dart';
 import 'package:poke_app/widgets/water_mark.dart';
 
 class ItemPokemon extends StatefulWidget {
@@ -26,23 +23,16 @@ class ItemPokemon extends StatefulWidget {
 class _ItemPokemonState extends State<ItemPokemon> {
   @override
   Widget build(BuildContext context) {
-    TypePokemonData? typePokemon;
-    /* for (String type in widget.pokemon.type) {
-      typePokemon = typesPokemonData.firstWhere(
-        (item) => item.name == type,
-      );
-      break;
-    } */
-
     return GestureDetector(
       onTap: () {
-        /* BlocProvider.of<PokemonBloc>(context).add(SetPokemon(widget.pokemon));
-        Navigator.pushNamed(context, 'details_pokemon'); */
+        NavigationManager.go(
+          context,
+          "details_pokemon",
+          data: widget.pokemon,
+        );
       },
       child: Card(
-        color: typePokemon != null
-            ? typePokemon.color.withOpacity(0.5)
-            : Colors.grey,
+        color: Colors.blueAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: const BorderSide(
@@ -70,7 +60,7 @@ class _ItemPokemonState extends State<ItemPokemon> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.pokemon.name,
+                        widget.pokemon.name.capitalize(),
                         style: TextStyle(
                           fontSize: widget.responsive.dp(1.9),
                           color: Colors.white,

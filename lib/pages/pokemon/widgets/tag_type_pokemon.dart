@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_app/ui/color_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
+import 'package:poke_app/utils/string_extension.dart';
 import 'package:poke_app/utils/types.dart';
 
 class TagTypePokemon extends StatelessWidget {
@@ -41,9 +42,10 @@ class TagTypePokemon extends StatelessWidget {
                 types.length,
                 (index) {
                   Color color = typesPokemonData
-                      .firstWhere((element) => element.name == types[index])
+                      .firstWhere(
+                        (element) => element.name == types[index].capitalize(),
+                      )
                       .color;
-
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Container(
@@ -55,7 +57,7 @@ class TagTypePokemon extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text(
-                            types[index],
+                            types[index].capitalize(),
                             style: TextStyle(
                               fontSize: responsive.dp(2),
                               color: Colors.white,

@@ -10,4 +10,9 @@ class PokemonUseCase {
     final response = await _repository.getPokemon();
     return response;
   }
+
+  Future<ResponseState> getPokemonDetail(int id) async {
+    final response = await _repository.getPokemonDetail(id);
+    return response;
+  }
 }
