@@ -5,13 +5,13 @@ class Pokemon {
   int? id;
   String name;
   String image;
-  String? urlDetail;
+  String urlDetail;
 
   Pokemon({
     this.id,
     required this.image,
     required this.name,
-    this.urlDetail,
+    required this.urlDetail,
   });
 
   @override
@@ -25,7 +25,7 @@ class Pokemon {
       name: data['name'] as String,
       image:
           "${ApiEndpoint.pokemonPhoto}/${getPokemonIdFromUrl(data["url"])}.png",
-      urlDetail: data['url'] as String?,
+      urlDetail: data['url'] as String,
     );
   }
 }
@@ -49,6 +49,7 @@ class PokemonFile extends Pokemon {
   PokemonFile({
     super.image = '',
     required super.name,
+    required super.urlDetail,
     required this.photo,
     required this.typeId,
   });
@@ -76,6 +77,7 @@ class PokemonDetails extends Pokemon {
   PokemonDetails({
     required super.image,
     required super.name,
+    required super.urlDetail,
     required this.weight,
     required this.height,
     required this.types,
@@ -91,11 +93,12 @@ PokemonDetails parsePokemonDetails(dynamic pokemon) {
     }
   }
   return PokemonDetails(
-    image: pokemon["sprites"]["other"]["official-artwork"]["front_default"],
-    imageShiny: pokemon["sprites"]["other"]["official-artwork"]["front_shiny"],
-    name: pokemon["name"],
-    weight: double.parse(pokemon["weight"].toString()),
-    height: double.parse(pokemon["height"].toString()),
-    types: types,
-  );
+      image: pokemon["sprites"]["other"]["official-artwork"]["front_default"],
+      imageShiny: pokemon["sprites"]["other"]["official-artwork"]
+          ["front_shiny"],
+      name: pokemon["name"],
+      weight: double.parse(pokemon["weight"].toString()),
+      height: double.parse(pokemon["height"].toString()),
+      types: types,
+      urlDetail: "${ApiEndpoint.baseUrl}${pokemon['name']}/");
 }

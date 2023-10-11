@@ -6,29 +6,23 @@ import 'package:poke_app/utils/string_extension.dart';
 import 'package:poke_app/pages/pokemon/widgets/image_pokemon.dart';
 import 'package:poke_app/widgets/water_mark.dart';
 
-class ItemPokemon extends StatefulWidget {
+class ItemPokemon extends StatelessWidget {
   final Pokemon pokemon;
-  final Responsive responsive;
 
   const ItemPokemon({
     super.key,
     required this.pokemon,
-    required this.responsive,
   });
 
   @override
-  State<ItemPokemon> createState() => _ItemPokemonState();
-}
-
-class _ItemPokemonState extends State<ItemPokemon> {
-  @override
   Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
     return GestureDetector(
       onTap: () {
         NavigationManager.go(
           context,
           "details_pokemon",
-          data: widget.pokemon,
+          data: pokemon,
         );
       },
       child: Card(
@@ -42,6 +36,7 @@ class _ItemPokemonState extends State<ItemPokemon> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
+            alignment: Alignment.center,
             children: [
               const Positioned(
                 top: 10,
@@ -60,24 +55,25 @@ class _ItemPokemonState extends State<ItemPokemon> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.pokemon.name.capitalize(),
+                        pokemon.name.capitalize(),
+                        textDirection: TextDirection.ltr,
                         style: TextStyle(
-                          fontSize: widget.responsive.dp(1.9),
+                          fontSize: responsive.dp(1.9),
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       /* TagTypePokemon(
-                        types: widget.pokemon.type,
-                        width: widget.responsive.wp(15),
-                        height: widget.responsive.hp(8),
+                        types:  pokemon.type,
+                        width:  responsive.wp(15),
+                        height:  responsive.hp(8),
                       ), */
                     ],
                   ),
                   Expanded(
                     child: ImagePokemon(
-                      pokemon: widget.pokemon,
-                      responsive: widget.responsive,
+                      pokemon: pokemon,
+                      responsive: responsive,
                     ),
                   ),
                 ],

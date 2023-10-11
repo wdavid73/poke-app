@@ -96,7 +96,6 @@ class _ListPokemonState extends State<ListPokemon> {
                                   state.pokemon.length,
                                   (index) {
                                     return ItemPokemon(
-                                      responsive: responsive,
                                       pokemon: state.pokemon[index],
                                     );
                                   },

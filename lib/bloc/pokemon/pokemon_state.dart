@@ -1,6 +1,6 @@
 part of 'pokemon_bloc.dart';
 
-class PokemonState {
+class PokemonState extends Equatable {
   final List<Pokemon> pokemon;
   final bool loading;
   final bool isDone;
@@ -10,7 +10,7 @@ class PokemonState {
   final String errorMessage;
   final PokemonDetails? pokemonDetail;
 
-  PokemonState({
+  const PokemonState({
     this.pokemon = const <Pokemon>[],
     this.loading = false,
     this.isDone = false,
@@ -54,4 +54,7 @@ class PokemonState {
         "hasError: $hasError,\n"
         "";
   }
+
+  @override
+  List<Object?> get props => [loading, isDone, hasError];
 }

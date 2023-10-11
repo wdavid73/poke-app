@@ -90,6 +90,53 @@ class _DetailsPokemonState extends State<DetailsPokemon>
     return BlocConsumer<PokemonBloc, PokemonState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if (state.loading == true) {
+          return Container(
+            width: responsive.width,
+            height: responsive.height,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_details.jpg'),
+                fit: BoxFit.cover,
+                opacity: 0.1,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(color: Colors.white),
+                const SizedBox(height: 10),
+                Text(
+                  "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: responsive.dp(2),
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+
+        if (state.hasError == true) {
+          return Container(
+            width: responsive.width,
+            height: responsive.height,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_details.jpg'),
+                fit: BoxFit.cover,
+                opacity: 0.1,
+              ),
+            ),
+            child: const Text("Ha ocurrido un error"),
+          );
+        }
+
         return Container(
           width: responsive.width,
           height: responsive.height,

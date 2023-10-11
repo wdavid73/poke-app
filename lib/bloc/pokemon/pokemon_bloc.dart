@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/class/pokemon_obj.dart';
@@ -8,9 +9,9 @@ part 'pokemon_event.dart';
 part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  final PokemonUseCase _pokemonUseCase;
+  final BasePokemonUseCase _pokemonUseCase;
 
-  PokemonBloc(this._pokemonUseCase) : super(PokemonState()) {
+  PokemonBloc(this._pokemonUseCase) : super(const PokemonState()) {
     const Duration duration = Duration(milliseconds: 500);
     on<PokemonEvent>(
       (event, emit) async {
@@ -20,10 +21,10 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
             loading: true,
             hasError: false,
             isDone: false,
+            pokemon: [],
           ));
-          await Future.delayed(duration);
+          //await Future.delayed(duration);
           emit.call(await _getPokemon());
-          emit.call(state.copyWith(loading: false));
         }
 
         // event get pokemon detail
@@ -66,8 +67,15 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   Future<PokemonState> _getPokemonDetail(int id) async {
     ResponseState response = await _pokemonUseCase.getPokemonDetail(id);
     if (response is ResponseFailed) {
-      return state.copyWith(errorMessage: "${response.error!.error}");
+      return state.copyWith(
+        errorMessage: "${response.error!.error}",
+        loading: false,
+        hasError: true,
+      );
     }
-    return state.copyWith(pokemonDetail: response.data);
+    return state.copyWith(
+      pokemonDetail: response.data,
+      loading: false,
+    );
   }
 }
