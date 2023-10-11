@@ -6,8 +6,8 @@ on:
       - deploy
 
 jobs:
-  flutter_analyze:
-    name: Run Flutter analyze
+  flutter_analyze_and_test:
+    name: Run Flutter analyze and Testing
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,6 +20,7 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
+      - run: flutter test
 
   build_ios:
     name: Build Flutter for iOS
