@@ -63,9 +63,8 @@ class MockPokemonRepository extends PokemonRepository {
 
       final PokemonDetails pokemonDetail =
           parsePokemonDetails(pokemonDetailData);
-
-      return ResponseSuccess(
-          pokemonDetail, 200); // Simulamos un código de estado HTTP 200 (éxito)
+      // Simulamos un código de estado HTTP 200 (éxito)
+      return ResponseSuccess(pokemonDetail, 200);
     } catch (e) {
       // En caso de error, simulamos una respuesta de error
       return ResponseFailed(DioException(
@@ -78,18 +77,18 @@ class MockPokemonRepository extends PokemonRepository {
   }
 }
 
-class MockPokemonUseCase implements BasePokemonUseCase {
-  final MockPokemonRepository _repository;
-  MockPokemonUseCase(this._repository);
+class MockPokemonUseCase extends PokemonUseCase {
+  final MockPokemonRepository repository;
+  MockPokemonUseCase(this.repository) : super(repository);
 
   @override
   Future<ResponseState> getPokemon() async {
-    return _repository.getPokemon();
+    return repository.getPokemon();
   }
 
   @override
   Future<ResponseState> getPokemonDetail(int id) async {
-    return _repository.getPokemonDetail(id);
+    return repository.getPokemonDetail(id);
   }
 }
 

@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:poke_app/services/api_endpoint.dart';
 
 class Pokemon {
-  int? id;
+  int id;
   String name;
   String image;
   String urlDetail;
 
   Pokemon({
-    this.id,
+    required this.id,
     required this.image,
     required this.name,
     required this.urlDetail,
@@ -48,6 +48,7 @@ class PokemonFile extends Pokemon {
 
   PokemonFile({
     super.image = '',
+    required super.id,
     required super.name,
     required super.urlDetail,
     required this.photo,
@@ -82,6 +83,7 @@ class PokemonDetails extends Pokemon {
     required this.height,
     required this.types,
     required this.imageShiny,
+    required super.id,
   });
 }
 
@@ -93,12 +95,13 @@ PokemonDetails parsePokemonDetails(dynamic pokemon) {
     }
   }
   return PokemonDetails(
-      image: pokemon["sprites"]["other"]["official-artwork"]["front_default"],
-      imageShiny: pokemon["sprites"]["other"]["official-artwork"]
-          ["front_shiny"],
-      name: pokemon["name"],
-      weight: double.parse(pokemon["weight"].toString()),
-      height: double.parse(pokemon["height"].toString()),
-      types: types,
-      urlDetail: "${ApiEndpoint.baseUrl}${pokemon['name']}/");
+    image: pokemon["sprites"]["other"]["official-artwork"]["front_default"],
+    imageShiny: pokemon["sprites"]["other"]["official-artwork"]["front_shiny"],
+    name: pokemon["name"],
+    weight: double.parse(pokemon["weight"].toString()),
+    height: double.parse(pokemon["height"].toString()),
+    types: types,
+    urlDetail: "${ApiEndpoint.baseUrl}${pokemon['name']}/",
+    id: pokemon["id"],
+  );
 }

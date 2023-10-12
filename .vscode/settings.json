@@ -3,6 +3,7 @@
     "appbundle",
     "bumpversion",
     "github",
+    "mocktail",
     "Pokedex",
     "pokemon",
     "pubspec",

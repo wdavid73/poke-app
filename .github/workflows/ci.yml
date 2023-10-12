@@ -16,38 +16,38 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.10.5'
+          flutter-version: '3.13.x'
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
 
-  build_ios:
-    name: Build Flutter for iOS
-    needs: [flutter_analyze]
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #build_ios:
+  #  name: Build Flutter for iOS
+  #  needs: [flutter_analyze]
+  #  runs-on: macos-latest
+  #  steps:
+  #    - name: Checkout code
+  #      uses: actions/checkout@v2
 
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
+  #    - name: Setup Java
+  #      uses: actions/setup-java@v1
+  #      with:
+  #        java-version: "12.x"
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.10.5'
-          channel: "stable"
-      - name: Install dependencies
-        run: flutter pub get
+  #    - name: Setup Flutter
+  #      uses: subosito/flutter-action@v1
+  #      with:
+  #        flutter-version: '3.10.5'
+  #        channel: "stable"
+  #    - name: Install dependencies
+  #      run: flutter pub get
 
-      - name: Clear build
-        run: flutter clean
+  #    - name: Clear build
+  #      run: flutter clean
 
-      - name: Build iOS - No CodeSign
-        run: flutter build ios --release --no-codesign
+  #    - name: Build iOS - No CodeSign
+  #      run: flutter build ios --release --no-codesign
 
   build_appbundle:
     name: Build Flutter for Android

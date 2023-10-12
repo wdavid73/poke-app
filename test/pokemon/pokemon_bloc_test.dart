@@ -26,6 +26,7 @@ void main() {
     ];
 
     final expectPokemonDetail = PokemonDetails(
+      id: 1,
       name: "Bulbasaur",
       image: "${ApiEndpoint.pokemonPhoto}/1.png",
       imageShiny: "${ApiEndpoint.pokemonPhoto}/1.png",

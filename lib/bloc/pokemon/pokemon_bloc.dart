@@ -9,7 +9,7 @@ part 'pokemon_event.dart';
 part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  final BasePokemonUseCase _pokemonUseCase;
+  final PokemonUseCase _pokemonUseCase;
 
   PokemonBloc(this._pokemonUseCase) : super(const PokemonState()) {
     const Duration duration = Duration(milliseconds: 500);
