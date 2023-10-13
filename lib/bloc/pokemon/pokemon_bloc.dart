@@ -23,7 +23,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
             isDone: false,
             pokemon: [],
           ));
-          //await Future.delayed(duration);
+          await Future.delayed(duration);
           emit.call(await _getPokemon());
         }
 
@@ -76,6 +76,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     return state.copyWith(
       pokemonDetail: response.data,
       loading: false,
+      hasError: false,
     );
   }
 }

@@ -41,6 +41,7 @@ class MockPokemonRepository extends PokemonRepository {
     try {
       // Simulamos una respuesta exitosa con datos ficticios para un Pokémon específico
       final Map<String, dynamic> pokemonDetailData = {
+        'id': 25,
         'name': 'Pikachu',
         'weight': 6.0,
         'height': 0.4,
@@ -56,7 +57,7 @@ class MockPokemonRepository extends PokemonRepository {
         },
         'types': [
           {
-            'type': {'name': 'Electric'}
+            'type': {'name': 'electric'}
           },
         ],
       };
@@ -66,6 +67,7 @@ class MockPokemonRepository extends PokemonRepository {
       // Simulamos un código de estado HTTP 200 (éxito)
       return ResponseSuccess(pokemonDetail, 200);
     } catch (e) {
+      print(e);
       // En caso de error, simulamos una respuesta de error
       return ResponseFailed(DioException(
         error: 'Error simulado',

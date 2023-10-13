@@ -66,7 +66,8 @@ class _ListPokemonState extends State<ListPokemon> {
                     top: responsive.dp(15),
                     child: RefreshIndicator(
                       onRefresh: () async {
-                        // print("reload");
+                        await Future.delayed(const Duration(seconds: 3));
+                        print("RELOAD");
                       },
                       child: BlocBuilder<PokemonBloc, PokemonState>(
                         builder: (context, state) {
