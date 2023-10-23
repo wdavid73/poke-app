@@ -9,9 +9,9 @@ part 'pokemon_event.dart';
 part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  final PokemonUseCase _pokemonUseCase;
+  final PokemonUseCase pokemonUseCase;
 
-  PokemonBloc(this._pokemonUseCase) : super(const PokemonState()) {
+  PokemonBloc(this.pokemonUseCase) : super(const PokemonState()) {
     const Duration duration = Duration(milliseconds: 500);
     on<PokemonEvent>(
       (event, emit) async {
@@ -45,7 +45,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   }
 
   Future<PokemonState> _getPokemon() async {
-    ResponseState response = await _pokemonUseCase.getPokemon();
+    ResponseState response = await pokemonUseCase.getPokemon();
     if (response is ResponseFailed) {
       return state.copyWith(
         pokemon: [],
@@ -65,7 +65,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   }
 
   Future<PokemonState> _getPokemonDetail(int id) async {
-    ResponseState response = await _pokemonUseCase.getPokemonDetail(id);
+    ResponseState response = await pokemonUseCase.getPokemonDetail(id);
     if (response is ResponseFailed) {
       return state.copyWith(
         errorMessage: "${response.error!.error}",

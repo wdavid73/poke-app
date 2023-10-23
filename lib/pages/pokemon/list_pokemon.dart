@@ -67,7 +67,6 @@ class _ListPokemonState extends State<ListPokemon> {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         await Future.delayed(const Duration(seconds: 3));
-                        print("RELOAD");
                       },
                       child: BlocBuilder<PokemonBloc, PokemonState>(
                         builder: (context, state) {
@@ -97,6 +96,7 @@ class _ListPokemonState extends State<ListPokemon> {
                                   state.pokemon.length,
                                   (index) {
                                     return ItemPokemon(
+                                      key: Key('pokemon_$index'),
                                       pokemon: state.pokemon[index],
                                     );
                                   },
