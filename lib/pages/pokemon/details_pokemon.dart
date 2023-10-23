@@ -61,10 +61,10 @@ class _DetailsPokemonState extends State<DetailsPokemon>
 
   void _init() {
     final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
-    pokemonBloc.add(GetPokemonDetail(id: widget.pokemon.id!));
+    pokemonBloc.add(GetPokemonDetail(id: widget.pokemon.id));
   }
 
-  Color? _getPokemonColor(PokemonDetails pokemon) {
+  Color _getPokemonColor(PokemonDetails pokemon) {
     TypePokemonData? typePokemon;
     for (String type in pokemon.types) {
       typePokemon = typesPokemonData.firstWhere(
@@ -90,11 +90,60 @@ class _DetailsPokemonState extends State<DetailsPokemon>
     return BlocConsumer<PokemonBloc, PokemonState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if (state.loading == true) {
+          return Container(
+            width: responsive.width,
+            height: responsive.height,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_details.jpg'),
+                fit: BoxFit.cover,
+                opacity: 0.1,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(color: Colors.white),
+                const SizedBox(height: 10),
+                Text(
+                  "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: responsive.dp(2),
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+
+        if (state.hasError == true) {
+          return Container(
+            width: responsive.width,
+            height: responsive.height,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_details.jpg'),
+                fit: BoxFit.cover,
+                opacity: 0.1,
+              ),
+            ),
+            child: const Text("Ha ocurrido un error"),
+          );
+        }
+
         return Container(
           width: responsive.width,
           height: responsive.height,
           decoration: BoxDecoration(
-            color: _getPokemonColor(state.pokemonDetail!),
+            color: state.pokemonDetail != null
+                ? _getPokemonColor(state.pokemonDetail!)
+                : Colors.grey,
             image: const DecorationImage(
               image: AssetImage('assets/images/background_details.jpg'),
               fit: BoxFit.cover,
@@ -107,9 +156,11 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               Positioned(
                 top: responsive.dp(10),
                 child: _titlePokemon(
-                  pokemonId: widget.pokemon.id!,
+                  pokemonId: widget.pokemon.id,
                   pokemonName: widget.pokemon.name,
-                  pokemonTypes: state.pokemonDetail!.types,
+                  pokemonTypes: state.pokemonDetail != null
+                      ? state.pokemonDetail!.types
+                      : [],
                   responsive: responsive,
                 ),
               ),
@@ -119,7 +170,11 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                   width: responsive.wp(60) / 1.1,
                   height: responsive.hp(30) / 1.1,
                   decoration: BoxDecoration(
-                    color: lighten(_getPokemonColor(state.pokemonDetail!)!),
+                    color: lighten(
+                      state.pokemonDetail != null
+                          ? _getPokemonColor(state.pokemonDetail!)
+                          : Colors.grey,
+                    ),
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
@@ -195,7 +250,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                   child: TabBarView(
                     controller: _tabController,
                     children: myTabs.map((Tab tab) {
-                      final String label = tab.text!.toLowerCase();
+                      final String? label = tab.text?.toLowerCase();
                       return Center(
                         child: Text(
                           'This is the $label tab',
@@ -225,7 +280,7 @@ class _DetailsPokemonState extends State<DetailsPokemon>
       width: responsive.width,
       height: responsive.hp(12),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(4.0),
         child: Column(
           children: [
             Row(

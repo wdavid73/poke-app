@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:poke_app/services/api_endpoint.dart';
 
 class Pokemon {
-  int? id;
+  int id;
   String name;
   String image;
-  String? urlDetail;
+  String urlDetail;
 
   Pokemon({
-    this.id,
+    required this.id,
     required this.image,
     required this.name,
-    this.urlDetail,
+    required this.urlDetail,
   });
 
   @override
@@ -25,7 +25,7 @@ class Pokemon {
       name: data['name'] as String,
       image:
           "${ApiEndpoint.pokemonPhoto}/${getPokemonIdFromUrl(data["url"])}.png",
-      urlDetail: data['url'] as String?,
+      urlDetail: data['url'] as String,
     );
   }
 }
@@ -48,7 +48,9 @@ class PokemonFile extends Pokemon {
 
   PokemonFile({
     super.image = '',
+    required super.id,
     required super.name,
+    required super.urlDetail,
     required this.photo,
     required this.typeId,
   });
@@ -76,10 +78,12 @@ class PokemonDetails extends Pokemon {
   PokemonDetails({
     required super.image,
     required super.name,
+    required super.urlDetail,
     required this.weight,
     required this.height,
     required this.types,
     required this.imageShiny,
+    required super.id,
   });
 }
 
@@ -97,5 +101,7 @@ PokemonDetails parsePokemonDetails(dynamic pokemon) {
     weight: double.parse(pokemon["weight"].toString()),
     height: double.parse(pokemon["height"].toString()),
     types: types,
+    urlDetail: "${ApiEndpoint.baseUrl}${pokemon['name']}/",
+    id: pokemon["id"],
   );
 }

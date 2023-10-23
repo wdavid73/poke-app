@@ -122,27 +122,33 @@ class _MyHomePageState extends State<MyHomePage> {
                               childAspectRatio: (1 / 0.5),
                               children: [
                                 ItemMenu(
+                                  key: const Key('option_pokedex'),
                                   colorItem: Colors.greenAccent,
                                   title: "Pokedex",
                                   onTap: () => goToListPokemon(),
                                 ),
                                 const ItemMenu(
+                                  key: Key('option_abilities'),
                                   colorItem: Colors.blueAccent,
                                   title: "Abilities",
                                 ),
                                 const ItemMenu(
+                                  key: Key('option_locations'),
                                   colorItem: Colors.purpleAccent,
                                   title: "Locations",
                                 ),
                                 const ItemMenu(
+                                  key: Key('option_moves'),
                                   colorItem: Colors.redAccent,
                                   title: "Moves",
                                 ),
                                 const ItemMenu(
+                                  key: Key('option_items'),
                                   colorItem: Colors.amberAccent,
                                   title: "Items",
                                 ),
                                 const ItemMenu(
+                                  key: Key('option_type_charts'),
                                   colorItem: Colors.brown,
                                   title: "Type Charts",
                                 ),
