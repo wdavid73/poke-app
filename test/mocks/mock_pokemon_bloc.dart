@@ -67,7 +67,7 @@ class MockPokemonRepository extends PokemonRepository {
       // Simulamos un código de estado HTTP 200 (éxito)
       return ResponseSuccess(pokemonDetail, 200);
     } catch (e) {
-      print(e);
+      // print(e);
       // En caso de error, simulamos una respuesta de error
       return ResponseFailed(DioException(
         error: 'Error simulado',
