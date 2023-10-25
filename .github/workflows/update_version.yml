@@ -55,6 +55,7 @@ jobs:
           run: |
             cd ${{ github.workspace }}
             bumpversion ${{ env.BUMP_LEVEL }}
+          continue-on-error: true # Continuar incluso si no se encuentra una coincidencia
 
         - name: Create bumpversion.log
           run: touch ${{ github.workspace }}/bumpversion.log
