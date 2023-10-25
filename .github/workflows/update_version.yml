@@ -30,7 +30,7 @@ jobs:
           id: check_commit
           run: |
             # Analiza los mensajes de confirmación
-            bump_level=none $ por defecto
+            bump_level=none # Por defecto
 
             keywords_config=$(cat commit_keywords.json)
 
