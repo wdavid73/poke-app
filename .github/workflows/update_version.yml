@@ -17,6 +17,9 @@ jobs:
           with:
             python-version: '3.x'
 
+        - name: Install jq
+          run: sudo apt-get install jq
+          
         - name: Install bumpversion
           run: pip install bumpversion
         - name: Configure Git author identity
@@ -25,6 +28,7 @@ jobs:
             git config --global user.name "Wilson Padilla"
             cd ${{ github.workspace }}
             git checkout master
+
 
         - name: Check commit message
           id: check_commit
