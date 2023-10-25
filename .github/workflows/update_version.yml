@@ -30,19 +30,21 @@ jobs:
           id: check_commit
           run: |
             # Analiza los mensajes de confirmación
-            if git log -1 --pretty=%B | grep -q "fix" || git log -1 --pretty=%B |grep -q "adjustment"; then
-              echo "Increment version patch"
-              echo "BUMP_LEVEL=patch" >> $GITHUB_ENV
-            elif git log -1 --pretty=%B | grep -q "feat"; then
-              echo "Increment version minor"
-              echo "BUMP_LEVEL=minor" >> $GITHUB_ENV
-            elif git log -1 --pretty=%B | grep -q "breaking"; then
-              echo "Increment version major"
-              echo "BUMP_LEVEL=major" >> $GITHUB_ENV
-            else
-              echo "Don't required increment version"
-              echo "BUMP_LEVEL=none" >> $GITHUB_ENV
-            fi
+            bump_level=none $ por defecto
+
+            keywords_config=$(cat commit_keywords.json)
+
+            last_commit_message=$(git log -1 --pretty=%B)
+
+            for keyword in $(echo $keywords_config | jg -r 'keys[]'); do
+              if echo "$las_commit_message" | grep -q "$keyword"; then
+                bump_level=$(echo $keywords_config | jq -r ".$keyword")
+                break
+              fi
+            done
+
+            echo "Increment version of $bump_level"
+            echo "BUMP_LEVEL=$bump_level" >> $GITHUB_ENV
           shell: bash
 
         - name: Bump version
