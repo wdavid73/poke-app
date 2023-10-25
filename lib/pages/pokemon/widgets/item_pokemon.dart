@@ -63,11 +63,6 @@ class ItemPokemon extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      /* TagTypePokemon(
-                        types:  pokemon.type,
-                        width:  responsive.wp(15),
-                        height:  responsive.hp(8),
-                      ), */
                     ],
                   ),
                   Expanded(

@@ -41,11 +41,11 @@ jobs:
             for keyword in "${keywords[@]}"; do
               if echo "$last_commit_message" | grep -q "$keyword"; then
                 if [ "$keyword" == "fix" ] || [ "$keyword" == "hotfix" ] || [ "$keyword" == "bug" ] || [ "$keyword" == "adhesive_bandage" ]; then
-                  bump_level="patch"  # Incremento de versión de tipo patch para "fix" o "hotfix"
+                  bump_level="patch"  # Incremento de versión de tipo patch
                 elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ] || [ "$keyword" == "Merge" ] || [ "$keyword" == "merge" ]; then
-                  bump_level="minor"  # Incremento de versión de tipo minor para "feat"
+                  bump_level="minor"  # Incremento de versión de tipo minor
                 elif [ "$keyword" == "breaking" ] || [ "$keyword" == "new_version" ]; then
-                  bump_level="major"  # Incremento de versión de tipo major para "breaking"
+                  bump_level="major"  # Incremento de versión de tipo major
                 fi
                 break  # Detén la búsqueda en cuanto se encuentra una coincidencia
               fi
