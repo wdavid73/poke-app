@@ -55,7 +55,7 @@ class ItemPokemon extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        pokemon.name,
+                        pokemon.name.capitalize(),
                         textDirection: TextDirection.ltr,
                         style: TextStyle(
                           fontSize: responsive.dp(1.9),
