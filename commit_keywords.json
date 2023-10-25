@@ -16,5 +16,5 @@
   globe_with_meridians: "minor",
   zap: "minor",
   breaking: "major",
-  new_versio": "major"
+  new_version: "major"
 }
