@@ -8,13 +8,12 @@
   "bento": "patch",
   "speech_ballon": "patch",
   "iphone": "patch",
-  "adhesive_bandage": "patch",
   "feat": "minor",
   "sparkles": "minor",
   "recycle": "minor",
   "boom": "minor",
-  "globe_with_meridians": "minor",
   "zap": "minor",
   "breaking": "major",
   "new_version": "major"
 }
+
