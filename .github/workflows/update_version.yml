@@ -17,9 +17,6 @@ jobs:
           with:
             python-version: '3.x'
 
-        - name: Install jq
-          run: sudo apt-get install jq
-          
         - name: Install bumpversion
           run: pip install bumpversion
         - name: Configure Git author identity
@@ -36,17 +33,21 @@ jobs:
             # Analiza los mensajes de confirmación
             bump_level=none # Por defecto
 
-            keywords_config=$(cat commit_keywords.json)
+            # Lista de palabras clave
+            keywords=("fix" "feat" "breaking" "redesign" "hotfix" "sparkles" "ambulance" "bug" "adhesive_bandage" "new_version")
 
             last_commit_message=$(git log -1 --pretty=%B)
 
-            echo "$last_commit_message"
-
-            for keyword in $(echo $keywords_config | jq -r 'keys[]'); do
-              echo "$keyword"
+            for keyword in "${keywords[@]}"; do
               if echo "$last_commit_message" | grep -q "$keyword"; then
-                bump_level=$(echo $keywords_config | jq -r "$keyword")
-                break  # Detener la búsqueda en cuanto se encuentra una coincidencia
+                if [ "$keyword" == "fix" ] || [ "$keyword" == "hotfix" ] || [ "$keyword" == "bug" ] || [ "$keyword" == "adhesive_bandage" ]; then
+                  bump_level="patch"  # Incremento de versión de tipo patch para "fix" o "hotfix"
+                elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ]; then
+                  bump_level="minor"  # Incremento de versión de tipo minor para "feat"
+                elif [ "$keyword" == "breaking" ] || [ "$keyword" == "new_version" ]; then
+                  bump_level="major"  # Incremento de versión de tipo major para "breaking"
+                fi
+                break  # Detén la búsqueda en cuanto se encuentra una coincidencia
               fi
             done
 
