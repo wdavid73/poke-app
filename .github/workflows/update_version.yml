@@ -29,10 +29,26 @@ jobs:
         # - name: Check pubspec.yaml file status (before)
         #  run: cat pubspec.yaml
 
+        - name: Check commit message
+          id: check_commit
+          run: |
+            # Analiza los mensajes de confirmación
+            if git log -1 --pretty=%B | grep -q "fix"; then
+              echo "::set-output name=bump_level::patch"
+            elif git log -1 --pretty=%B | grep -q "feat"; then
+              echo "::set-output name=bump_level::minor"
+            elif git log -1 --pretty=%B | grep -q "breaking"; then
+              echo "::set-output name=bump_level::major"
+            else
+              echo "::set-output name=bump_level::none"
+            fi
+          shell: bash
+
         - name: Bump version
+          if : steps.check_commit.outputs.bump_level != 'none'
           run: |
             cd ${{ github.workspace }}
-            bumpversion patch
+            bumpversion ${{ steps.check_commit.outputs.bump_level }}
 
         # - name: Verify pubspec.yaml file status (after)
         #  run: cat pubspec.yaml
