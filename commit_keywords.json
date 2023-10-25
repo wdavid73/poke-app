@@ -1,5 +1,6 @@
 {
-  "hotfix": "patch",
+  "hotfix:": "patch",
+  "hotfix/0": "patch",
   "bug": "patch",
   "fire": "patch",
   "truck": "patch",
