@@ -34,7 +34,7 @@ jobs:
             bump_level=none # Por defecto
 
             # Lista de palabras clave
-            keywords=("fix" "feat" "breaking" "redesign" "hotfix" "sparkles" "ambulance" "bug" "adhesive_bandage" "new_version")
+            keywords=("fix" "feat" "breaking" "redesign" "hotfix" "sparkles" "ambulance" "bug" "adhesive_bandage" "new_version", "Merge", "merge")
 
             last_commit_message=$(git log -1 --pretty=%B)
 
@@ -42,7 +42,7 @@ jobs:
               if echo "$last_commit_message" | grep -q "$keyword"; then
                 if [ "$keyword" == "fix" ] || [ "$keyword" == "hotfix" ] || [ "$keyword" == "bug" ] || [ "$keyword" == "adhesive_bandage" ]; then
                   bump_level="patch"  # Incremento de versión de tipo patch para "fix" o "hotfix"
-                elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ]; then
+                elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ] || [ "$keyword" == "Merge" ] || [ "$keyword" == "merge" ]; then
                   bump_level="minor"  # Incremento de versión de tipo minor para "feat"
                 elif [ "$keyword" == "breaking" ] || [ "$keyword" == "new_version" ]; then
                   bump_level="major"  # Incremento de versión de tipo major para "breaking"
