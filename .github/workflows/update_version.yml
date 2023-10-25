@@ -38,7 +38,7 @@ jobs:
 
             for keyword in $(echo $keywords_config | jq -r 'keys[]'); do
               if echo "$last_commit_message" | grep -q "$keyword"; then
-                bump_level=$(echo $keywords_config | jq -r ":$keyword:")
+                bump_level=$(echo $keywords_config | jq -r "$keyword")
                 break  # Detener la búsqueda en cuanto se encuentra una coincidencia
               fi
             done
