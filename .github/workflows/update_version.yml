@@ -15,7 +15,7 @@ jobs:
         - name: Set up Python
           uses: actions/setup-python@v2
           with:
-            python-version: '3.x'  # Ajusta la versión de Python según tu proyecto
+            python-version: '3.x'
 
         - name: Install bumpversion
           run: pip install bumpversion
@@ -26,52 +26,33 @@ jobs:
             cd ${{ github.workspace }}
             git checkout master
 
-        # - name: Check pubspec.yaml file status (before)
-        #  run: cat pubspec.yaml
-
         - name: Check commit message
           id: check_commit
           run: |
             # Analiza los mensajes de confirmación
-            if git log -1 --pretty=%B | grep -q "fix" | grep -q "adjustment"; then
-              echo "::set-output name=bump_level::patch"
+            if git log -1 --pretty=%B | grep -q "fix" || git log -1 --pretty=%B |grep -q "adjustment"; then
+              echo "Increment version patch"
+              echo "BUMP_LEVEL=patch" >> $GITHUB_ENV
             elif git log -1 --pretty=%B | grep -q "feat"; then
-              echo "::set-output name=bump_level::minor"
+              echo "Increment version minor"
+              echo "BUMP_LEVEL=minor" >> $GITHUB_ENV
             elif git log -1 --pretty=%B | grep -q "breaking"; then
-              echo "::set-output name=bump_level::major"
+              echo "Increment version major"
+              echo "BUMP_LEVEL=major" >> $GITHUB_ENV
             else
-              echo "::set-output name=bump_level::none"
+              echo "Don't required increment version"
+              echo "BUMP_LEVEL=none" >> $GITHUB_ENV
             fi
           shell: bash
 
         - name: Bump version
-          if : steps.check_commit.outputs.bump_level != 'none'
+          if : env.BUMP_LEVEL != 'none'
           run: |
             cd ${{ github.workspace }}
-            bumpversion ${{ steps.check_commit.outputs.bump_level }}
-
-        # - name: Verify pubspec.yaml file status (after)
-        #  run: cat pubspec.yaml
+            bumpversion ${{ env.BUMP_LEVEL }}
 
         - name: Create bumpversion.log
           run: touch ${{ github.workspace }}/bumpversion.log
-
-        # - name: Show command output
-        #  run: cat ${{ github.workspace }}/bumpversion.log
-
-        # - name: Debug Logging
-        #  run: |
-        #    echo "Checking out code..."
-        #    git config --list  # Imprime la configuración de Git
-        #    echo "Git author identity:"
-        #    git config user.email
-        #    git config user.name
-        #    echo "Current branch:"
-        #    git branch
-        #    echo "Status before bumpversion:"
-        #    git status
-        #    echo "Pubspec.yaml before bumpversion:"
-        #    cat pubspec.yaml
 
         - name: Commit and push changes
           run: |
