@@ -36,9 +36,10 @@ jobs:
 
             last_commit_message=$(git log -1 --pretty=%B)
 
+            echo "$last_commit_message"
+
             for keyword in $(echo $keywords_config | jq -r 'keys[]'); do
               echo "$keyword"
-              echo "$last_commit_message" | grep -q "$keyword"
               if echo "$last_commit_message" | grep -q "$keyword"; then
                 bump_level=$(echo $keywords_config | jq -r "$keyword")
                 break  # Detener la búsqueda en cuanto se encuentra una coincidencia
