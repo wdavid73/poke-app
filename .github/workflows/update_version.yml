@@ -33,7 +33,7 @@ jobs:
           id: check_commit
           run: |
             # Analiza los mensajes de confirmación
-            if git log -1 --pretty=%B | grep -q "fix"; then
+            if git log -1 --pretty=%B | grep -q "fix" | grep -q "adjustment"; then
               echo "::set-output name=bump_level::patch"
             elif git log -1 --pretty=%B | grep -q "feat"; then
               echo "::set-output name=bump_level::minor"
