@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "appbundle",
+    "Articuno",
     "Bulbasaur",
     "bumpversion",
     "Charizard",
@@ -16,5 +17,9 @@
     "sublist",
     "unfocus",
     "usecases"
+  ],
+  "github-actions.workflows.pinned.workflows": [
+    ".github/workflows/update_version.yml",
+    ".github/workflows/ci.yml"
   ]
 }

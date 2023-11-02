@@ -62,7 +62,7 @@ class _SearchPokemonState extends State<SearchPokemon> {
                   responsive: widget.responsive,
                   inputWidth: widget.responsive.width,
                   labelText: "Search Pokemon",
-                  hintText: "Pokemon, Move, Ability, etc",
+                  hintText: "Pikachu, Mew, Articuno",
                   fillColor: ColorManager.backgroundColor,
                   borderStyle: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
