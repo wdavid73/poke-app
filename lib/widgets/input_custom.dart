@@ -19,17 +19,19 @@ class InputCustom extends StatelessWidget {
   final Icon? prefixIcon;
   final TextEditingController? controller;
   final void Function()? showPassword;
-  final void Function(String text) onChange;
+  final void Function(String text)? onChange;
+  final void Function(String text)? onFieldSubmitted;
   final String? Function(String? text)? validator;
   final Color fillColor;
   final InputBorder? borderStyle;
+  final bool isLoading;
 
   const InputCustom({
     Key? key,
     required this.responsive,
     required this.labelText,
     required this.hintText,
-    required this.onChange,
+    this.onChange,
     this.validator,
     this.prefixIcon,
     this.textAlign = TextAlign.start,
@@ -46,6 +48,8 @@ class InputCustom extends StatelessWidget {
     this.prefixText,
     this.fillColor = Colors.white,
     this.borderStyle,
+    this.onFieldSubmitted,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -57,58 +61,85 @@ class InputCustom extends StatelessWidget {
             color: Colors.black45,
           ),
         );
-    return SizedBox(
+    return Container(
       width: inputWidth ?? responsive.wp(80),
-      child: TextFormField(
-        initialValue: initialValue,
-        textAlign: textAlign,
-        maxLines: 1,
-        enabled: enabled,
-        keyboardType: keyboardType,
-        obscureText: isPassword,
-        style: TextStyle(
-          fontSize: responsive.dp(1.6),
-          color: Colors.black,
-        ),
-        onChanged: onChange,
-        validator: validator,
-        decoration: InputDecoration(
-          prefixText: prefixText,
-          prefixIcon: prefixIcon,
-          suffixIcon: isPasswordField
-              ? IconButton(
-                  onPressed: () => showPassword!(),
-                  icon: Icon(
-                    isPassword
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: Colors.lightBlueAccent,
+      padding: const EdgeInsets.all(0),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(isLoading ? 2 : 0),
+            child: Opacity(
+              opacity: isLoading ? 0.3 : 1,
+              child: TextFormField(
+                initialValue: initialValue,
+                textAlign: textAlign,
+                maxLines: 1,
+                enabled: enabled,
+                keyboardType: keyboardType,
+                obscureText: isPassword,
+                style: TextStyle(
+                  fontSize: responsive.dp(1.6),
+                  color: Colors.black,
+                ),
+                onChanged: onChange,
+                onFieldSubmitted: onFieldSubmitted,
+                validator: validator,
+                decoration: InputDecoration(
+                  prefixText: prefixText,
+                  prefixIcon: prefixIcon,
+                  suffixIcon: isPasswordField
+                      ? IconButton(
+                          onPressed: () => showPassword!(),
+                          icon: Icon(
+                            isPassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: Colors.lightBlueAccent,
+                          ),
+                        )
+                      : null,
+                  enabledBorder: borderInput,
+                  filled: true,
+                  fillColor: fillColor,
+                  focusColor: Colors.white70,
+                  focusedBorder: borderInput,
+                  border: borderInput,
+                  labelText: labelText,
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  labelStyle: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                    fontSize: responsive.dp(1.6),
+                  ),
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                    fontSize: responsive.dp(1.6),
+                  ),
+                ),
+                controller: controller,
+                inputFormatters: toUpperCase ? [UpperCaseTextFormatter()] : [],
+              ),
+            ),
+          ),
+          isLoading
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 10,
+                  ),
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.blueAccent,
+                    color: Colors.cyanAccent,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
                   ),
                 )
-              : null,
-          enabledBorder: borderInput,
-          filled: true,
-          fillColor: fillColor,
-          focusColor: Colors.white70,
-          focusedBorder: borderInput,
-          border: borderInput,
-          labelText: labelText,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-          labelStyle: TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-            fontSize: responsive.dp(1.6),
-          ),
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-            fontSize: responsive.dp(1.6),
-          ),
-        ),
-        controller: controller,
-        inputFormatters: toUpperCase ? [UpperCaseTextFormatter()] : [],
+              : const SizedBox.shrink(),
+        ],
       ),
     );
   }

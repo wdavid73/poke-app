@@ -4,6 +4,7 @@ import 'package:poke_app/services/response.dart';
 abstract class BasePokemonUseCase {
   Future<ResponseState> getPokemon();
   Future<ResponseState> getPokemonDetail(int id);
+  Future<ResponseState> searchPokemon(String name);
 }
 
 class PokemonUseCase implements BasePokemonUseCase {
@@ -20,6 +21,12 @@ class PokemonUseCase implements BasePokemonUseCase {
   @override
   Future<ResponseState> getPokemonDetail(int id) async {
     final response = await _repository.getPokemonDetail(id);
+    return response;
+  }
+
+  @override
+  Future<ResponseState> searchPokemon(String name) async {
+    final response = await _repository.searchPokemon(name);
     return response;
   }
 }

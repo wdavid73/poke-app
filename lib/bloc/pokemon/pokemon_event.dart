@@ -10,4 +10,9 @@ class GetPokemonDetail extends PokemonEvent {
   GetPokemonDetail({required this.id});
 }
 
+class SearchPokemonEvent extends PokemonEvent {
+  final String name;
+  SearchPokemonEvent({required this.name});
+}
+
 class ClearState extends PokemonEvent {}

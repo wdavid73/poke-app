@@ -3,7 +3,7 @@ import 'package:poke_app/bloc/pokemon/pokemon_bloc.dart';
 import 'package:poke_app/bloc/type_pokemon/type_pokemon_bloc.dart';
 import 'package:poke_app/services/api.dart';
 import 'package:poke_app/services/repositories/repository_pokemon.dart';
-import 'package:poke_app/services/respositories_impl/repository_pokemon_impl.dart';
+import 'package:poke_app/services/repositories_impl/repository_pokemon_impl.dart';
 import 'package:poke_app/services/usecases/pokemon_usecase.dart';
 
 List<RepositoryProvider> buildRepositories() {

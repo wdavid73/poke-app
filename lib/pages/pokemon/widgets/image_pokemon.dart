@@ -20,7 +20,7 @@ class ImagePokemon extends StatelessWidget {
     return ExtendedImage.network(
       pokemon.image,
       width: widthImage ?? responsive.wp(55),
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
       cache: true,
       border: Border.all(color: Colors.transparent, width: 1.0),
       shape: BoxShape.rectangle,
@@ -28,9 +28,17 @@ class ImagePokemon extends StatelessWidget {
       loadStateChanged: (ExtendedImageState state) {
         switch (state.extendedImageLoadState) {
           case LoadState.loading:
-            return null;
+            return Container(
+              width: responsive.wp(55),
+              height: responsive.wp(55),
+              padding: EdgeInsets.all(responsive.dp(10)),
+              child: const CircularProgressIndicator.adaptive(),
+            );
           case LoadState.completed:
-            return null;
+            return ExtendedRawImage(
+              image: state.extendedImageInfo?.image,
+              width: widthImage,
+            );
           case LoadState.failed:
             return GestureDetector(
               child: Stack(

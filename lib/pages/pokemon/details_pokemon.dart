@@ -14,7 +14,9 @@ class DetailsContainerPokemon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Pokemon;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    final pokemon = args != null ? args as Pokemon : null;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -29,14 +31,14 @@ class DetailsContainerPokemon extends StatelessWidget {
         ],
       ),
       extendBodyBehindAppBar: true,
-      body: DetailsPokemon(pokemon: args),
+      body: DetailsPokemon(pokemon: pokemon),
     );
   }
 }
 
 class DetailsPokemon extends StatefulWidget {
-  final Pokemon pokemon;
-  const DetailsPokemon({super.key, required this.pokemon});
+  final Pokemon? pokemon;
+  const DetailsPokemon({super.key, this.pokemon});
 
   @override
   State<DetailsPokemon> createState() => _DetailsPokemonState();
@@ -60,8 +62,10 @@ class _DetailsPokemonState extends State<DetailsPokemon>
   }
 
   void _init() {
-    final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
-    pokemonBloc.add(GetPokemonDetail(id: widget.pokemon.id));
+    if (widget.pokemon != null) {
+      final pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+      pokemonBloc.add(GetPokemonDetail(id: widget.pokemon!.id));
+    }
   }
 
   Color _getPokemonColor(PokemonDetails pokemon) {
@@ -155,14 +159,16 @@ class _DetailsPokemonState extends State<DetailsPokemon>
             children: [
               Positioned(
                 top: responsive.dp(10),
-                child: _titlePokemon(
-                  pokemonId: widget.pokemon.id,
-                  pokemonName: widget.pokemon.name,
-                  pokemonTypes: state.pokemonDetail != null
-                      ? state.pokemonDetail!.types
-                      : [],
-                  responsive: responsive,
-                ),
+                child: state.pokemonDetail != null
+                    ? _titlePokemon(
+                        pokemonId: state.pokemonDetail!.id,
+                        pokemonName: state.pokemonDetail!.name,
+                        pokemonTypes: state.pokemonDetail != null
+                            ? state.pokemonDetail!.types
+                            : [],
+                        responsive: responsive,
+                      )
+                    : const SizedBox.shrink(),
               ),
               Positioned(
                 top: responsive.dp(24),
@@ -186,15 +192,15 @@ class _DetailsPokemonState extends State<DetailsPokemon>
               Positioned(
                 top: responsive.dp(23),
                 child: Container(
-                  /* width: responsive.wp(55),
-                    height: responsive.hp(30), */
                   color: Colors.transparent,
                   child: FittedBox(
                     fit: BoxFit.fill,
-                    child: ImagePokemon(
-                      pokemon: widget.pokemon,
-                      responsive: responsive,
-                    ),
+                    child: state.pokemonDetail != null
+                        ? ImagePokemon(
+                            pokemon: state.pokemonDetail!,
+                            responsive: responsive,
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ),
               ),

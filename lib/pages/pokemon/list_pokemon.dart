@@ -5,6 +5,7 @@ import 'package:poke_app/pages/pokemon/widgets/item_pokemon.dart';
 import 'package:poke_app/ui/color_manager.dart';
 import 'package:poke_app/utils/navigation_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
+// import 'package:poke_app/widgets/input_custom.dart';
 import 'package:poke_app/widgets/shimmer/grid_shimmer.dart';
 import 'package:poke_app/widgets/water_mark.dart';
 import 'package:shimmer/shimmer.dart';
@@ -62,7 +63,21 @@ class _ListPokemonState extends State<ListPokemon> {
                 children: [
                   _titlePage(responsive),
                   _waterMark(responsive),
+                  /* Positioned(
+                    top: responsive.hp(18),
+                    child: InputCustom(
+                      responsive: responsive,
+                      inputWidth: responsive.wp(95),
+                      labelText: "Search",
+                      hintText: "Search pokemon",
+                      prefixIcon: const Icon(Icons.search),
+                      onChange: (text) {
+                        print(text);
+                      },
+                    ),
+                  ), */
                   Positioned(
+                    /* top: responsive.dp(22), */
                     top: responsive.dp(15),
                     child: RefreshIndicator(
                       onRefresh: () async {
@@ -168,9 +183,9 @@ class _ListPokemonState extends State<ListPokemon> {
                 ],
               ),
             ),
-            SizedBox(
+            /* SizedBox(
               height: responsive.hp(1),
-            ),
+            ), */
           ],
         ),
       ),

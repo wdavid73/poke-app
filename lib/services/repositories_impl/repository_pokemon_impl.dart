@@ -48,4 +48,22 @@ class PokemonRepositoryImpl extends PokemonRepository {
       );
     }
   }
+
+  @override
+  Future<ResponseState> searchPokemon(String name) async {
+    try {
+      final response = await _client.get('${ApiEndpoint.pokemon}/$name/');
+      final PokemonDetails pokemon = parsePokemonDetails(response.data);
+      return ResponseSuccess(pokemon, response.statusCode!);
+    } catch (e) {
+      return ResponseFailed(
+        DioException(
+          error: e,
+          requestOptions: RequestOptions(
+            path: ApiEndpoint.pokemon,
+          ),
+        ),
+      );
+    }
+  }
 }

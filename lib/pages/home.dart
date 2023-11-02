@@ -53,123 +53,125 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          width: responsive.width,
-          height: responsive.height,
-          color: ColorManager.lightGreyVariationTwo,
-          alignment: Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: responsive.width,
-                height: responsive.hp(70),
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24),
+        child: SingleChildScrollView(
+          child: Container(
+            width: responsive.width,
+            height: responsive.height,
+            color: ColorManager.lightGreyVariationTwo,
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: responsive.width,
+                  height: responsive.hp(70),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(24),
+                      bottomRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: responsive.wp(60),
+                        top: -responsive.hp(15),
+                        child: const WaterMark(
+                          opacity: 0.2,
+                          color: Colors.grey,
+                          size: 30,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: kToolbarHeight,
+                            ),
+                            Text(
+                              "What Pokemon",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: ColorManager.textPrimary,
+                                fontSize: responsive.dp(4),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "are you looking for?",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: ColorManager.textPrimary,
+                                fontSize: responsive.dp(4),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SearchPokemon(
+                              responsive: responsive,
+                            ),
+                            Expanded(
+                              child: GridView.count(
+                                padding: EdgeInsets.zero,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: (1 / 0.5),
+                                children: [
+                                  ItemMenu(
+                                    key: const Key('option_pokedex'),
+                                    colorItem: Colors.greenAccent,
+                                    title: "Pokedex",
+                                    onTap: () => goToListPokemon(),
+                                  ),
+                                  const ItemMenu(
+                                    key: Key('option_abilities'),
+                                    colorItem: Colors.blueAccent,
+                                    title: "Abilities",
+                                  ),
+                                  const ItemMenu(
+                                    key: Key('option_locations'),
+                                    colorItem: Colors.purpleAccent,
+                                    title: "Locations",
+                                  ),
+                                  const ItemMenu(
+                                    key: Key('option_moves'),
+                                    colorItem: Colors.redAccent,
+                                    title: "Moves",
+                                  ),
+                                  const ItemMenu(
+                                    key: Key('option_items'),
+                                    colorItem: Colors.amberAccent,
+                                    title: "Items",
+                                  ),
+                                  const ItemMenu(
+                                    key: Key('option_type_charts'),
+                                    colorItem: Colors.brown,
+                                    title: "Type Charts",
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: responsive.wp(60),
-                      top: -responsive.hp(15),
-                      child: const WaterMark(
-                        opacity: 0.2,
-                        color: Colors.grey,
-                        size: 30,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: kToolbarHeight,
-                          ),
-                          Text(
-                            "What Pokemon",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              color: ColorManager.textPrimary,
-                              fontSize: responsive.dp(4),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "are you looking for?",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              color: ColorManager.textPrimary,
-                              fontSize: responsive.dp(4),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SearchPokemon(
-                            responsive: responsive,
-                          ),
-                          Expanded(
-                            child: GridView.count(
-                              padding: EdgeInsets.zero,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: (1 / 0.5),
-                              children: [
-                                ItemMenu(
-                                  key: const Key('option_pokedex'),
-                                  colorItem: Colors.greenAccent,
-                                  title: "Pokedex",
-                                  onTap: () => goToListPokemon(),
-                                ),
-                                const ItemMenu(
-                                  key: Key('option_abilities'),
-                                  colorItem: Colors.blueAccent,
-                                  title: "Abilities",
-                                ),
-                                const ItemMenu(
-                                  key: Key('option_locations'),
-                                  colorItem: Colors.purpleAccent,
-                                  title: "Locations",
-                                ),
-                                const ItemMenu(
-                                  key: Key('option_moves'),
-                                  colorItem: Colors.redAccent,
-                                  title: "Moves",
-                                ),
-                                const ItemMenu(
-                                  key: Key('option_items'),
-                                  colorItem: Colors.amberAccent,
-                                  title: "Items",
-                                ),
-                                const ItemMenu(
-                                  key: Key('option_type_charts'),
-                                  colorItem: Colors.brown,
-                                  title: "Type Charts",
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                Expanded(
+                  child: Container(
+                    width: responsive.width,
+                    height: responsive.hp(25),
+                    alignment: Alignment.center,
+                    child: const PokeNews(),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  width: responsive.width,
-                  height: responsive.hp(25),
-                  alignment: Alignment.center,
-                  child: const PokeNews(),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

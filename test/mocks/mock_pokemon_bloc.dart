@@ -77,6 +77,12 @@ class MockPokemonRepository extends PokemonRepository {
       ));
     }
   }
+
+  @override
+  Future<ResponseState> searchPokemon(String name) {
+    // TODO: implement searchPokemon
+    throw UnimplementedError();
+  }
 }
 
 class MockPokemonUseCase extends PokemonUseCase {
