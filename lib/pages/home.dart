@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:poke_app/ui/color_manager.dart';
 import 'package:poke_app/utils/navigation_manager.dart';
 import 'package:poke_app/utils/responsive.dart';
+import 'package:poke_app/utils/styles_manager.dart';
 import 'package:poke_app/widgets/search_pokemon.dart';
 import 'package:poke_app/widgets/water_mark.dart';
 
@@ -13,6 +15,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String version = '';
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
+
+  Future<String> _getVersionInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    return version;
+  }
+
+  void _init() async {
+    String ver = await _getVersionInfo();
+    setState(() => version = ver);
+  }
+
   closeDrawer() {
     Navigator.pop(context);
   }
@@ -168,6 +189,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: responsive.hp(25),
                     alignment: Alignment.center,
                     child: const PokeNews(),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  child: Text(
+                    "Version $version",
+                    style: getMediumStyle(
+                      color: Colors.black,
+                      fontSize: responsive.dp(2),
+                    ),
                   ),
                 ),
               ],

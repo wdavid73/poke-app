@@ -49,6 +49,7 @@ dependencies:
   equatable: ^2.0.5
   mocktail: ^1.0.1
   mockito: ^5.4.2
+  package_info_plus: ^4.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
