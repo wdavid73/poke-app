@@ -1,0 +1,70 @@
+name: Update Version for Each Commit (Optimized)
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install bumpversion
+        run: pip install bumpversion
+
+      - name: Configure Git author identity
+        run: |
+          git config --global user.email "wdavidw26@gmail.com"
+          git config --global user.name "Wilson Padilla"
+        shell: bash
+
+      - name: Initialize commit message
+        run: echo "Bump version for commits:" > commit_message.txt
+
+      - name: Iterate over commits and bump versions
+        run: |
+          for commit in $(git log --merges --pretty=%H); do
+            bump_level="none" # Por defecto
+
+            keywords=("fix" "feat" "breaking" "redesign" "hotfix" "sparkles" "ambulance" "bug" "adhesive_bandage" "new_version", "Merge", "merge")
+
+            commit_message=$(git log -1 --pretty=%B $commit)
+
+            for keyword in "${keywords[@]}"; do
+              if echo "$commit_message" | grep -q "$keyword"; then
+                if [ "$keyword" == "fix" ] || [ "$keyword" == "hotfix" ] || [ "$keyword" == "bug" ] || [ "$keyword" == "adhesive_bandage" ]; then
+                  bump_level="patch"  # Incremento de versión de tipo patch
+                elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ] || [ "$keyword" == "Merge" ] || [ "$keyword" == "merge" ]; then
+                  bump_level="minor"  # Incremento de versión de tipo minor
+                elif [ "$keyword" == "breaking" ] || [ "$keyword" == "new_version" ]; then
+                  bump_level="major"  # Incremento de versión de tipo major
+                fi
+                break  # Detén la búsqueda en cuanto se encuentra una coincidencia
+              fi
+            done
+
+            if [ "$bump_level" != "none" ]; then
+              echo "Bump version of $bump_level for commit $commit" >> commit_message.txt
+              cd ${{ github.workspace }}
+              bumpversion $bump_level
+            fi
+          done
+        shell: bash
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -a -F commit_message.txt
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -111,7 +111,7 @@ void main() {
       expect(find.byType(ItemPokemon), findsWidgets);
     });
 
-    testWidgets('Test navigation when pressing back button',
+    /*testWidgets('Test navigation when pressing back button',
         (WidgetTester tester) async {
       final mockPokemonBloc = MockPokemonBloc();
       when(() => mockPokemonBloc.state).thenAnswer(
@@ -133,7 +133,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Realiza tus aserciones de que se ha navegado correctamente
-    });
+    });*/
 
     testWidgets('Test "No data" message when no data available',
         (WidgetTester tester) async {

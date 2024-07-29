@@ -38,6 +38,7 @@ class DetailsContainerPokemon extends StatelessWidget {
 
 class DetailsPokemon extends StatefulWidget {
   final Pokemon? pokemon;
+
   const DetailsPokemon({super.key, this.pokemon});
 
   @override
@@ -193,15 +194,15 @@ class _DetailsPokemonState extends State<DetailsPokemon>
                 top: responsive.dp(23),
                 child: Container(
                   color: Colors.transparent,
-                  child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: state.pokemonDetail != null
-                        ? ImagePokemon(
+                  child: state.pokemonDetail != null
+                      ? FittedBox(
+                          fit: BoxFit.fill,
+                          child: ImagePokemon(
                             pokemon: state.pokemonDetail!,
                             responsive: responsive,
-                          )
-                        : const SizedBox.shrink(),
-                  ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ),
               ),
             ],
